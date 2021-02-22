@@ -1,0 +1,46 @@
+body {
+  background-color: antiquewhite;
+}
+
+.App {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.Toolbar {
+  display: flex;
+  flex-direction: row;
+  max-width: 90px;
+  gap: 10px;
+  > div {
+    box-sizing: border-box;
+    width: 40px;
+    height: 40px;
+    border-radius: 7px;
+    border: 1px solid #000;
+  }
+}
+
+.colorPicker {
+  background-color: red;
+  .colorPickerHover {
+    display: none;
+  }
+  &:hover {
+    .colorPickerHover {
+      display: block;
+      transform: translateY(35px);
+    }
+  }
+}
+
+.tool {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: gray;
+  svg{
+    height: 70%;
+    width: 70%;
+  }
+}

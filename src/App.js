@@ -1,11 +1,30 @@
+import React, { useState } from "react";
 import { DrawField } from "./components/DrawField";
 import { Toolbar } from "./components/Toolbar";
+import { Pen } from "./global/ToolFunctions";
+
 
 function App() {
+  const [ToolbarStatus, setToolbarStatus] = useState({
+    color: "#000000",
+    lineWidth: 5,
+    tool: Pen,
+  });
+
   return (
     <div className="App">
-      <DrawField />
-      <Toolbar  />
+      <DrawField ToolbarStatus={ToolbarStatus} />
+      <Toolbar
+        setToolbarStatus={setToolbarStatus}
+        ToolbarStatus={ToolbarStatus}
+      />
+      {/* <button
+        onClick={() => {
+          console.log(ToolbarStatus);
+        }}
+      >
+        test
+      </button> */}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-export const DrawField = () => {
+export const DrawField = ({ ToolbarStatus }) => {
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
 
@@ -9,44 +9,51 @@ export const DrawField = () => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = window.innerWidth / 2;
-    canvas.height = window.innerHeight / 2;
+    canvas.width = 800;
+    canvas.height = 400;
     // canvas.style.width = `${400}px`;
     // canvas.style.height = `${200}px`;
-
     const ctx = canvas.getContext("2d");
     // ctx.scale(2, 2);
     ctx.lineCap = "round";
-    ctx.strokeStyle = "#36393e";
-    ctx.lineWidth = 5;
+    ctx.strokeStyle = ToolbarStatus.color;
+    ctx.lineWidth = ToolbarStatus.lineWidth;
     ctxRef.current = ctx;
   }, []);
 
-  const startAction = () => {
-    setIsDrawing(true);
-    ctxRef.current.moveTo(MouseLoc.XAxis, MouseLoc.YAxis);
-    ctxRef.current.beginPath();
-  };
-  const stopAction = () => {
-    ctxRef.current.closePath();
-    setIsDrawing(false);
-  };
-  const action = () => {
-    if (!IsDrawing) return;
-    ctxRef.current.lineTo(MouseLoc.XAxis, MouseLoc.YAxis);
-    ctxRef.current.stroke();
-  };
 
   return (
-    <canvas
-      style={{ border: "1px solid #000" }}
-      ref={canvasRef}
-      onMouseDown={startAction}
-      onMouseUp={stopAction}
-      onMouseMove={(event) => {
-        setMouseLoc({ XAxis: event.clientX, YAxis: event.clientY });
-        action();
-      }}
-    />
+    <>
+      <canvas
+        style={{ border: "1px solid #000", cursor: "crosshair" }}
+        ref={canvasRef}
+        onMouseDown={() => {
+          setIsDrawing(true);
+          // startAction();
+          ToolbarStatus.tool.start(
+            ctxRef,
+            ToolbarStatus,
+            MouseLoc.XAxis,
+            MouseLoc.YAxis
+          );
+        }}
+        onMouseMove={(event) => {
+          setMouseLoc({ XAxis: event.clientX, YAxis: event.clientY });
+          if (!IsDrawing) return;
+          ToolbarStatus.tool.action(ctxRef, event.clientX, event.clientY);
+        }}
+        onMouseUp={() => {
+          ToolbarStatus.tool.stop(ctxRef);
+          setIsDrawing(false);
+        }}
+      />
+      <button
+        onClick={() => {
+          console.log(ToolbarStatus.tool.start);
+        }}
+      >
+        test
+      </button>
+    </>
   );
 };

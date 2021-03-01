@@ -10,14 +10,35 @@ body {
 .Toolbar {
   display: flex;
   flex-direction: row;
-  max-width: 90px;
+
+  flex-wrap: wrap;
+  width: 90px;
+  height: fit-content;
   gap: 10px;
   > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: border-box;
     width: 40px;
     height: 40px;
     border-radius: 7px;
     border: 1px solid #000;
+    text-align: center;
+    cursor: pointer;
+  }
+  .lineWidth {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 90px;
+    background-color: #fff;
+    .rangerBar {
+      width: 80%;
+    }
+    p {
+      font-weight: bold;
+    }
   }
 }
 
@@ -34,12 +55,10 @@ body {
   }
 }
 
-.tool {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.tool,
+.dragLine {
   background-color: gray;
-  svg{
+  svg {
     height: 70%;
     width: 70%;
   }

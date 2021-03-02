@@ -16,6 +16,7 @@
 
 export const Pen = {
   Name: "pen",
+  ctxRef: "",
   start: (ctxRef, ToolbarStatus, X, Y) => {
     ctxRef.current.moveTo(X, Y);
     ctxRef.current.lineWidth = ToolbarStatus.lineWidth;
@@ -28,5 +29,8 @@ export const Pen = {
   },
   stop: (ctxRef) => {
     ctxRef.current.closePath();
+  },
+  test: () => {
+    console.log(this);
   },
 };

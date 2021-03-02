@@ -11,11 +11,10 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
         <div className="colorPickerHover">
           <GithubPicker
             onChange={(color) => {
-              setToolbarStatus({
+              setToolbarStatus((prevState) => ({
+                ...prevState,
                 color: color.hex,
-                lineWidth: ToolbarStatus.lineWidth,
-                tool: ToolbarStatus.tool,
-              });
+              }));
             }}
           />
         </div>
@@ -29,12 +28,11 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
         }
       >
         <BsPen
-          onClick={(color) => {
-            setToolbarStatus({
-              color: color.hex,
-              lineWidth: ToolbarStatus.lineWidth,
+          onClick={() => {
+            setToolbarStatus((prevState) => ({
+              ...prevState,
               tool: Pen,
-            });
+            }));
           }}
         />
       </div>
@@ -46,11 +44,10 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
           max="50"
           value={ToolbarStatus.lineWidth}
           onChange={(event) => {
-            setToolbarStatus({
-              color: ToolbarStatus.color,
+            setToolbarStatus((prevState) => ({
+              ...prevState,
               lineWidth: event.target.value,
-              tool: ToolbarStatus.tool,
-            });
+            }));
           }}
         />
         <p>{ToolbarStatus.lineWidth}</p>
@@ -78,7 +75,7 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
       <div>
         <button
           onClick={() => {
-            console.log(ToolbarStatus.tool);
+            console.log(ToolbarStatus.tool.test);
           }}
         >
           test

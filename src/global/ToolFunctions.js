@@ -27,7 +27,29 @@ export const Pen = {
     ctxRef.current.lineTo(X, Y);
     ctxRef.current.stroke();
   },
-  stop: (ctxRef) => {
+  stop: (ctxRef, X, Y) => {
+    ctxRef.current.closePath();
+  },
+  test: () => {
+    console.log(this);
+  },
+};
+
+export const dragLine = {
+  name: "dragLine",
+  ctxRef: "",
+  start: (ctxRef, ToolbarStatus, X, Y) => {
+    ctxRef.current.lineWidth = ToolbarStatus.lineWidth;
+    ctxRef.current.strokeStyle = ToolbarStatus.color;
+    ctxRef.current.beginPath();
+    ctxRef.current.moveTo(X, Y);
+  },
+  action: (ctxRef, X, Y) => {
+    console.log(ctxRef);
+  },
+  stop: (ctxRef, X, Y) => {
+    ctxRef.current.lineTo(X, Y);
+    ctxRef.current.stroke();
     ctxRef.current.closePath();
   },
   test: () => {

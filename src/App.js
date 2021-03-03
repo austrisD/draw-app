@@ -6,6 +6,10 @@ import { DefaultToolbarStatus } from "./global/initialToolbarStatus";
 function App() {
   const [ToolbarStatus, setToolbarStatus] = useState(DefaultToolbarStatus);
 
+  const test = () => {
+    
+  };
+
   return (
     <div className="App">
       <Toolbar

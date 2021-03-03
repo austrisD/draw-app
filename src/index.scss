@@ -16,6 +16,7 @@ body {
   height: fit-content;
   gap: 10px;
   > div {
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -43,7 +43,7 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
           ToolbarStatus.tool.action(ctxRef, MouseLoc.XAxis, MouseLoc.YAxis);
         }}
         onMouseUp={() => {
-          ToolbarStatus.tool.stop(ctxRef);
+          ToolbarStatus.tool.stop(ctxRef, MouseLoc.XAxis, MouseLoc.YAxis);
           setIsDrawing(false);
         }}
       />
@@ -52,11 +52,11 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
           setToolbarStatus((prevState) => ({
             ...prevState,
             tool: {
-              ...prevState.tool,
-              ctxRef: 'asdas',
+              ...ToolbarStatus.tool,
+              ctxRef: ctxRef,
             },
           }));
-          console.log(ToolbarStatus.tool.ctxRef);
+          console.log(ToolbarStatus);
         }}
       >
         test

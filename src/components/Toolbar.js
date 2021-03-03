@@ -2,7 +2,7 @@ import React from "react";
 import { GithubPicker } from "react-color";
 import { BsPen } from "react-icons/bs";
 import * as global from "../global/constants";
-import { Pen, dragLine } from "../global/ToolFunctions";
+import { Pen, dragLine, Arc } from "../global/ToolFunctions";
 
 export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
   return (
@@ -68,6 +68,22 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
         }}
       >
         <p> line</p>
+      </div>
+      <div
+        className="arc"
+        style={
+          ToolbarStatus.tool.name === "arc"
+            ? global.ActiveBtn
+            : { borderColor: "#000" }
+        }
+        onClick={() => {
+          setToolbarStatus((prevState) => ({
+            ...prevState,
+            tool: Arc,
+          }));
+        }}
+      >
+        <p> Arc</p>
       </div>
       <div className="background"></div>
 

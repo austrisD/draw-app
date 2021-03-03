@@ -45,10 +45,34 @@ export const dragLine = {
     ctxRef.current.moveTo(X, Y);
   },
   action: (ctxRef, X, Y) => {
-    console.log(ctxRef);
   },
   stop: (ctxRef, X, Y) => {
     ctxRef.current.lineTo(X, Y);
+    ctxRef.current.stroke();
+    ctxRef.current.closePath();
+  },
+  test: () => {
+    console.log(this);
+  },
+};
+
+export const Arc = {
+  name: "arc",
+  ctxRef: "",
+  arcX: 0,
+  arcY: 0,
+  arcSize: 0,
+  start: (ctxRef, ToolbarStatus, X, Y) => {
+    ctxRef.current.lineWidth = ToolbarStatus.lineWidth;
+    ctxRef.current.strokeStyle = ToolbarStatus.color;
+    ctxRef.current.beginPath();
+    // this.arcX = X;
+    // this.arcY = Y;
+  },
+  action: (ctxRef, X, Y) => {
+  },
+  stop: (ctxRef, X, Y) => {
+    ctxRef.current.arc(X, Y, 40, 0, 7);
     ctxRef.current.stroke();
     ctxRef.current.closePath();
   },

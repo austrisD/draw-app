@@ -44,8 +44,7 @@ export const dragLine = {
     ctxRef.current.beginPath();
     ctxRef.current.moveTo(X, Y);
   },
-  action: (ctxRef, X, Y) => {
-  },
+  action: (ctxRef, X, Y) => {},
   stop: (ctxRef, X, Y) => {
     ctxRef.current.lineTo(X, Y);
     ctxRef.current.stroke();
@@ -66,13 +65,34 @@ export const Arc = {
     ctxRef.current.lineWidth = ToolbarStatus.lineWidth;
     ctxRef.current.strokeStyle = ToolbarStatus.color;
     ctxRef.current.beginPath();
-    // this.arcX = X;
-    // this.arcY = Y;
+    Object.arcX = X;
+    Object.arcY = Y;
   },
-  action: (ctxRef, X, Y) => {
-  },
+  action: (ctxRef, X, Y) => {},
   stop: (ctxRef, X, Y) => {
-    ctxRef.current.arc(X, Y, 40, 0, 7);
+    Object.arcSize = Math.abs(Object.arcY - Y);
+    ctxRef.current.arc(Object.arcX, Object.arcY, Object.arcSize, 0, 7);
+    ctxRef.current.stroke();
+    ctxRef.current.closePath();
+    console.log(Object.arcX);
+  },
+  test: () => {
+    // console.log(Object);
+  },
+};
+
+export const square = {
+  name: "square",
+  ctxRef: "",
+  start: (ctxRef, ToolbarStatus, X, Y) => {
+    ctxRef.current.lineWidth = ToolbarStatus.lineWidth;
+    ctxRef.current.strokeStyle = ToolbarStatus.color;
+    ctxRef.current.beginPath();
+    ctxRef.current.moveTo(X, Y);
+  },
+  action: (ctxRef, X, Y) => {},
+  stop: (ctxRef, X, Y) => {
+    ctxRef.current.lineTo(X, Y);
     ctxRef.current.stroke();
     ctxRef.current.closePath();
   },
@@ -80,3 +100,4 @@ export const Arc = {
     console.log(this);
   },
 };
+

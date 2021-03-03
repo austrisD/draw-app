@@ -5,6 +5,27 @@ import * as global from "../global/constants";
 import { Pen, dragLine, Arc } from "../global/ToolFunctions";
 
 export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
+  const StandardTool = ({ name, ClassName, ToolFunctions }) => {
+    return (
+      <div
+        className={ClassName}
+        style={
+          ToolbarStatus.tool.name === ClassName
+            ? global.ActiveBtn
+            : { borderColor: "#000" }
+        }
+        onClick={() => {
+          setToolbarStatus((prevState) => ({
+            ...prevState,
+            tool: ToolFunctions,
+          }));
+        }}
+      >
+        <p> {name}</p>
+      </div>
+    );
+  };
+
   return (
     <div className="Toolbar">
       <div className="colorPicker" style={{ background: ToolbarStatus.color }}>
@@ -52,45 +73,15 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
         />
         <p>{ToolbarStatus.lineWidth}</p>
       </div>
+      <StandardTool ClassName={"dragLine"} name={'line'} ToolFunctions={dragLine} />
+      <StandardTool ClassName={"arc"} name={'circle'} ToolFunctions={Arc} />
 
-      <div
-        className="dragLine"
-        style={
-          ToolbarStatus.tool.name === "dragLine"
-            ? global.ActiveBtn
-            : { borderColor: "#000" }
-        }
-        onClick={() => {
-          setToolbarStatus((prevState) => ({
-            ...prevState,
-            tool: dragLine,
-          }));
-        }}
-      >
-        <p> line</p>
-      </div>
-      <div
-        className="arc"
-        style={
-          ToolbarStatus.tool.name === "arc"
-            ? global.ActiveBtn
-            : { borderColor: "#000" }
-        }
-        onClick={() => {
-          setToolbarStatus((prevState) => ({
-            ...prevState,
-            tool: Arc,
-          }));
-        }}
-      >
-        <p> Arc</p>
-      </div>
       <div className="background"></div>
 
       <div>
         <button
           onClick={() => {
-            console.log(ToolbarStatus.tool.test);
+            console.log(ToolbarStatus);
           }}
         >
           test

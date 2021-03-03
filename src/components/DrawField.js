@@ -49,17 +49,18 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
       />
       <button
         onClick={() => {
-          setToolbarStatus((prevState) => ({
-            ...prevState,
-            tool: {
-              ...ToolbarStatus.tool,
-              ctxRef: ctxRef,
-            },
-          }));
-          console.log(ToolbarStatus);
+          // setToolbarStatus((prevState) => ({
+          //   ...prevState,
+          //   tool: {
+          //     ...ToolbarStatus.tool,
+          //     ctxRef: ctxRef,
+          //   },
+          // }));
+          // console.log(ToolbarStatus);
+          ToolbarStatus.tool.test();
         }}
       >
-        test
+        testa
       </button>
     </>
   );

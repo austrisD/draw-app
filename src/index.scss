@@ -9,8 +9,9 @@ body {
 }
 .Toolbar {
   display: flex;
+  position: relative;
   flex-direction: row;
-
+  z-index: 2;
   flex-wrap: wrap;
   width: 90px;
   height: fit-content;
@@ -63,4 +64,9 @@ body {
     height: 70%;
     width: 70%;
   }
+}
+
+.canvasRefVisual {
+  position: absolute;
+  z-index: 1;
 }

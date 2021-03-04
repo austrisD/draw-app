@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 
-export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
+export const DrawField = ({ ToolbarStatus }) => {
   const canvasRef = useRef(null);
   const ctxRef = useRef(null);
+
+  const canvasRefVisual = useRef(null);
+  const ctxRefVisual = useRef(null);
 
   const [IsDrawing, setIsDrawing] = useState(false);
   const [MouseLoc, setMouseLoc] = useState({ XAxis: 0, YAxis: 0 });
@@ -19,6 +22,20 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
     ctx.lineWidth = ToolbarStatus.lineWidth;
     ctxRef.current = ctx;
   }, []);
+  /**draw field canvas */
+  useEffect(() => {
+    const canvas = canvasRefVisual.current;
+    canvas.width = 800;
+    canvas.height = 800;
+    canvas.style.width = `${800}px`;
+    canvas.style.height = `${800}px`;
+    const ctx = canvas.getContext("2d");
+    ctx.lineCap = "round";
+    ctx.strokeStyle = ToolbarStatus.color;
+    ctx.lineWidth = ToolbarStatus.lineWidth;
+    ctxRefVisual.current = ctx;
+  }, []);
+  /**mouse tool visual */
 
   useEffect(() => {
     ToolbarStatus.tool.set(
@@ -33,6 +50,16 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
       <canvas
         style={{ border: "1px solid #000", cursor: "crosshair" }}
         ref={canvasRef}
+      />
+
+      <canvas
+        className="canvasRefVisual"
+        style={{
+          border: "1px solid #000",
+          top: 8 /**canvasRef.current.offsetTop */,
+          left: 108 /**canvasRef.current.offsetLeft */,
+        }}
+        ref={canvasRefVisual}
         onMouseDown={() => {
           setIsDrawing(true);
           ToolbarStatus.tool.start(MouseLoc.XAxis, MouseLoc.YAxis);
@@ -44,6 +71,11 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
           });
           if (!IsDrawing) return;
           ToolbarStatus.tool.action(MouseLoc.XAxis, MouseLoc.YAxis);
+          ToolbarStatus.tool.cursorFunction(
+            ctxRefVisual.current,
+            MouseLoc.XAxis,
+            MouseLoc.YAxis
+          );
         }}
         onMouseUp={() => {
           ToolbarStatus.tool.stop(MouseLoc.XAxis, MouseLoc.YAxis);
@@ -52,8 +84,7 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
       />
       <button
         onClick={() => {
-   
-          console.log(ctxRef);
+          console.log(canvasRefVisual);
         }}
       >
         testa

@@ -7,6 +7,7 @@ export const Pen = {
     Object.ctxRef.current.moveTo(X, Y);
     Object.ctxRef.current.lineWidth = Object.lineWidth;
     Object.ctxRef.current.strokeStyle = Object.color;
+    Object.ctxRef.current.lineCap = "round";
     Object.ctxRef.current.beginPath();
   },
   action: (X, Y) => {
@@ -21,11 +22,8 @@ export const Pen = {
     Object.lineWidth = lineWidth;
     Object.color = color;
   },
-  test: () => {
-    console.log(this);
-  },
 };
-
+/*******************************************************************/
 export const dragLine = {
   name: "dragLine",
   ctxRef: "",
@@ -34,6 +32,7 @@ export const dragLine = {
   start: (X, Y) => {
     Object.ctxRef.current.lineWidth = Object.lineWidth;
     Object.ctxRef.current.strokeStyle = Object.color;
+    Object.ctxRef.current.lineCap = "round";
     Object.ctxRef.current.beginPath();
     Object.ctxRef.current.moveTo(X, Y);
   },
@@ -48,11 +47,8 @@ export const dragLine = {
     Object.lineWidth = lineWidth;
     Object.color = color;
   },
-  test: () => {
-    console.log(this);
-  },
 };
-
+/*******************************************************************/
 export const Arc = {
   name: "arc",
   ctxRef: "",
@@ -80,11 +76,8 @@ export const Arc = {
     Object.lineWidth = lineWidth;
     Object.color = color;
   },
-  test: () => {
-    // console.log(Object);
-  },
 };
-
+/*******************************************************************/
 export const squareFill = {
   name: "squareFill",
   ctxRef: "",
@@ -118,11 +111,39 @@ export const squareFill = {
     Object.lineWidth = lineWidth;
     Object.color = color;
   },
-  test: () => {
-    console.log(this);
+};
+/*******************************************************************/
+export const square = {
+  name: "square",
+  ctxRef: "",
+  lineWidth: "",
+  color: "",
+  click1X: null,
+  click1Y: null,
+  start: (X, Y) => {
+    Object.ctxRef.current.lineWidth = Object.lineWidth;
+    Object.ctxRef.current.strokeStyle = Object.color;
+    Object.ctxRef.current.lineCap = "square";
+    Object.ctxRef.current.beginPath();
+    Object.ctxRef.current.moveTo(X, Y);
+    Object.click1X = X;
+    Object.click1Y = Y;
+  },
+  action: (X, Y) => {},
+  stop: (X, Y) => {
+    Object.ctxRef.current.lineTo(X, Object.click1Y);
+    Object.ctxRef.current.lineTo(X, Y);
+    Object.ctxRef.current.lineTo(Object.click1X, Y);
+    Object.ctxRef.current.lineTo(Object.click1X, Object.click1Y);
+
+    Object.ctxRef.current.stroke();
+    Object.ctxRef.current.closePath();
+  },
+  set: (ctxRef, lineWidth, color) => {
+    Object.ctxRef = ctxRef;
+    Object.lineWidth = lineWidth;
+    Object.color = color;
   },
 };
 
-
 //more reformations needed!!!
-

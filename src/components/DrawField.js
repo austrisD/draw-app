@@ -52,15 +52,8 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
       />
       <button
         onClick={() => {
-          // setToolbarStatus((prevState) => ({
-          //   ...prevState,
-          //   tool: {
-          //     ...ToolbarStatus.tool,
-          //     ctxRef: ctxRef,
-          //   },
-          // }));
-          // console.log(ToolbarStatus);
-          ToolbarStatus.tool.test();
+   
+          console.log(ctxRef);
         }}
       >
         testa

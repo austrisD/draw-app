@@ -1,9 +1,15 @@
 import React from "react";
 import { GithubPicker } from "react-color";
-import { BsPen } from "react-icons/bs";
+import { BsPen, BsSquare } from "react-icons/bs";
 import { FaSquareFull } from "react-icons/fa";
 import * as global from "../global/constants";
-import { Pen, dragLine, Arc, squareFill } from "../global/ToolFunctions";
+import {
+  Pen,
+  dragLine,
+  Arc,
+  squareFill,
+  square,
+} from "../global/ToolFunctions";
 
 export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
   const StandardTool = ({ name, ClassName, ToolFunctions }) => {
@@ -84,6 +90,11 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
         ClassName={"squareFill"}
         name={<FaSquareFull />}
         ToolFunctions={squareFill}
+      />
+      <StandardTool
+        ClassName={"square"}
+        name={<BsSquare />}
+        ToolFunctions={square}
       />
 
       <div className="background"></div>

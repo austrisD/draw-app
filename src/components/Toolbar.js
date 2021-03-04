@@ -1,8 +1,9 @@
 import React from "react";
 import { GithubPicker } from "react-color";
 import { BsPen } from "react-icons/bs";
+import { FaSquareFull } from "react-icons/fa";
 import * as global from "../global/constants";
-import { Pen, dragLine, Arc } from "../global/ToolFunctions";
+import { Pen, dragLine, Arc, squareFill } from "../global/ToolFunctions";
 
 export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
   const StandardTool = ({ name, ClassName, ToolFunctions }) => {
@@ -73,8 +74,17 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
         />
         <p>{ToolbarStatus.lineWidth}</p>
       </div>
-      <StandardTool ClassName={"dragLine"} name={'line'} ToolFunctions={dragLine} />
-      <StandardTool ClassName={"arc"} name={'circle'} ToolFunctions={Arc} />
+      <StandardTool
+        ClassName={"dragLine"}
+        name={<>&#9866;</>}
+        ToolFunctions={dragLine}
+      />
+      <StandardTool ClassName={"arc"} name={<>&#9898;</>} ToolFunctions={Arc} />
+      <StandardTool
+        ClassName={"squareFill"}
+        name={<FaSquareFull />}
+        ToolFunctions={squareFill}
+      />
 
       <div className="background"></div>
 

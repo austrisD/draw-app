@@ -20,6 +20,14 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
     ctxRef.current = ctx;
   }, []);
 
+  useEffect(() => {
+    ToolbarStatus.tool.set(
+      ctxRef,
+      ToolbarStatus.lineWidth,
+      ToolbarStatus.color
+    );
+  }, [ToolbarStatus]);
+
   return (
     <>
       <canvas
@@ -27,12 +35,7 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
         ref={canvasRef}
         onMouseDown={() => {
           setIsDrawing(true);
-          ToolbarStatus.tool.start(
-            ctxRef,
-            ToolbarStatus,
-            MouseLoc.XAxis,
-            MouseLoc.YAxis
-          );
+          ToolbarStatus.tool.start(MouseLoc.XAxis, MouseLoc.YAxis);
         }}
         onMouseMove={(event) => {
           setMouseLoc({
@@ -40,10 +43,10 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
             YAxis: event.clientY - canvasRef.current.offsetTop,
           });
           if (!IsDrawing) return;
-          ToolbarStatus.tool.action(ctxRef, MouseLoc.XAxis, MouseLoc.YAxis);
+          ToolbarStatus.tool.action(MouseLoc.XAxis, MouseLoc.YAxis);
         }}
         onMouseUp={() => {
-          ToolbarStatus.tool.stop(ctxRef, MouseLoc.XAxis, MouseLoc.YAxis);
+          ToolbarStatus.tool.stop(MouseLoc.XAxis, MouseLoc.YAxis);
           setIsDrawing(false);
         }}
       />

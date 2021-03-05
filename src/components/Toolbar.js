@@ -1,7 +1,7 @@
 import React from "react";
 import { GithubPicker } from "react-color";
 import { BsPen, BsSquare } from "react-icons/bs";
-import { FaSquareFull } from "react-icons/fa";
+import { FaSquareFull, FaRegSave } from "react-icons/fa";
 import * as global from "../global/constants";
 import {
   Pen,
@@ -32,9 +32,25 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
       </div>
     );
   };
+  function download() {
+    const canvasId = document.getElementById("image");
+    // const img = canvasId.toDataURL("image/png");
+    // document.write('<img src="' + img + '"/>');
+    const link = document.createElement("a");
+    link.download = "filename.png";
+    link.href = canvasId.toDataURL();
+    link.click();
+  }
 
   return (
     <div className="Toolbar">
+      <div
+        onClick={() => {
+          download("yourDrawing", "asdasd");
+        }}
+      >
+        <FaRegSave />
+      </div>
       <div className="colorPicker" style={{ background: ToolbarStatus.color }}>
         <div className="colorPickerHover">
           <GithubPicker
@@ -46,6 +62,23 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
             }}
           />
         </div>
+      </div>
+
+      <div className="lineWidth">
+        <input
+          type="range"
+          className="rangerBar"
+          min="1"
+          max="50"
+          value={ToolbarStatus.lineWidth}
+          onChange={(event) => {
+            setToolbarStatus((prevState) => ({
+              ...prevState,
+              lineWidth: event.target.value,
+            }));
+          }}
+        />
+        <p>{ToolbarStatus.lineWidth}</p>
       </div>
       <div
         className="tool"
@@ -63,22 +96,6 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
             }));
           }}
         />
-      </div>
-      <div className="lineWidth">
-        <input
-          type="range"
-          className="rangerBar"
-          min="1"
-          max="50"
-          value={ToolbarStatus.lineWidth}
-          onChange={(event) => {
-            setToolbarStatus((prevState) => ({
-              ...prevState,
-              lineWidth: event.target.value,
-            }));
-          }}
-        />
-        <p>{ToolbarStatus.lineWidth}</p>
       </div>
       <StandardTool
         ClassName={"dragLine"}

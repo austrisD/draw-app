@@ -9,6 +9,7 @@ export const DrawField = ({ ToolbarStatus }) => {
 
   const [IsDrawing, setIsDrawing] = useState(false);
   const [MouseLoc, setMouseLoc] = useState({ XAxis: 0, YAxis: 0 });
+  const [CoordinatesActive, setCoordinatesActive] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -39,7 +40,7 @@ export const DrawField = ({ ToolbarStatus }) => {
 
   useEffect(() => {
     ToolbarStatus.tool.set(
-      ctxRef,
+      ctxRef.current,
       ToolbarStatus.lineWidth,
       ToolbarStatus.color
     );
@@ -47,15 +48,12 @@ export const DrawField = ({ ToolbarStatus }) => {
 
   return (
     <>
-      <canvas
-        style={{ border: "1px solid #000", cursor: "crosshair" }}
-        ref={canvasRef}
-      />
-
+      <canvas style={{ border: "1px solid #000" }} ref={canvasRef} id="image" />
       <canvas
         className="canvasRefVisual"
         style={{
           border: "1px solid #000",
+          cursor: "crosshair",
           top: 8 /**canvasRef.current.offsetTop */,
           left: 108 /**canvasRef.current.offsetLeft */,
         }}
@@ -65,6 +63,7 @@ export const DrawField = ({ ToolbarStatus }) => {
           ToolbarStatus.tool.start(MouseLoc.XAxis, MouseLoc.YAxis);
         }}
         onMouseMove={(event) => {
+          setCoordinatesActive(true);
           setMouseLoc({
             XAxis: event.clientX - canvasRef.current.offsetLeft,
             YAxis: event.clientY - canvasRef.current.offsetTop,
@@ -81,14 +80,29 @@ export const DrawField = ({ ToolbarStatus }) => {
           ToolbarStatus.tool.stop(MouseLoc.XAxis, MouseLoc.YAxis);
           setIsDrawing(false);
         }}
+        onMouseLeave={() => {
+          setCoordinatesActive(false);
+        }}
       />
-      <button
+      <p
+        style={{
+          display: CoordinatesActive ? "block" : "none",
+          top: MouseLoc.YAxis - 10,
+          left: MouseLoc.XAxis + 130,
+        }}
+        className="cursorCandidates"
+      >
+        {`X:${MouseLoc.XAxis}`}
+        <br />
+        {`Y:${MouseLoc.YAxis}`}
+      </p>
+      {/* <button
         onClick={() => {
           console.log(canvasRefVisual);
         }}
       >
         testa
-      </button>
+      </button> */}
     </>
   );
 };

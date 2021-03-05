@@ -1,9 +1,10 @@
 body {
   background-color: antiquewhite;
 }
-.cursorCandidates{
+.cursorCandidates {
   position: absolute;
   font-size: 13px;
+  z-index: 10;
 }
 .App {
   display: flex;
@@ -37,7 +38,6 @@ body {
     flex-direction: row;
     align-items: center;
     width: 90px;
-    background-color: #fff;
     .rangerBar {
       width: 80%;
     }
@@ -48,7 +48,6 @@ body {
 }
 
 .colorPicker {
-  background-color: red;
   .colorPickerHover {
     display: none;
   }
@@ -62,7 +61,6 @@ body {
 
 .tool,
 .dragLine {
-  background-color: gray;
   svg {
     height: 70%;
     width: 70%;

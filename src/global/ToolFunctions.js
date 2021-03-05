@@ -217,18 +217,31 @@ export const text = {
   ctxRef: "",
   lineWidth: "",
   color: "",
+  textMenu: false,
+  textMenuX: null,
+  textMenuY: null,
+  textValue: "",
   start: (X, Y) => {
-    Object.ctxRef.lineWidth = Object.lineWidth;
-    Object.ctxRef.strokeStyle = Object.color;
+    Object.textMenuX = X;
+    Object.textMenuY = Y;
+    Object.textMenu = true;
   },
   action: (X, Y) => {},
   stop: (X, Y) => {},
   cursorFunction: (ctxRef, X, Y) => {},
-  set: (ctxRef, lineWidth, color) => {
+  place: (TextToolValue, color) => {
+    Object.ctxRef.font = `${Object.lineWidth}px Arial`;
+    Object.ctxRef.fillStyle = color;
+    console.log(color);
+    Object.ctxRef.fillText(TextToolValue, Object.textMenuX, Object.textMenuY);
+  },
+  set: (ctxRef, lineWidth, color, textMenu) => {
     Object.ctxRef = ctxRef;
     Object.lineWidth = lineWidth;
     Object.color = color;
+    Object.textMenu = textMenu;
   },
 };
+//maxWidth
 
 //more reformations needed!!!

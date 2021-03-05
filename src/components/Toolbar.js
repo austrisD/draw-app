@@ -1,6 +1,7 @@
 import React from "react";
 import { GithubPicker } from "react-color";
 import { BsPen, BsSquare } from "react-icons/bs";
+import { VscTextSize } from "react-icons/vsc";
 import { FaSquareFull, FaRegSave } from "react-icons/fa";
 import * as global from "../global/constants";
 import {
@@ -9,6 +10,7 @@ import {
   Arc,
   squareFill,
   square,
+  text,
 } from "../global/ToolFunctions";
 
 export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
@@ -80,6 +82,7 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
         />
         <p>{ToolbarStatus.lineWidth}</p>
       </div>
+
       <div
         className="tool"
         style={
@@ -114,9 +117,24 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
         ToolFunctions={square}
       />
 
-      <div className="background"></div>
+      <div
+        className="text"
+        style={
+          ToolbarStatus.tool.Name === "text"
+            ? global.ActiveBtn
+            : { borderColor: "#000" }
+        }
+        onClick={() => {
+          setToolbarStatus((prevState) => ({
+            ...prevState,
+            tool: text,
+          }));
+        }}
+      >
+        <VscTextSize style={{ width: "25px", height: "25px" }} />
+      </div>
 
-      <div>
+      {/* <div>
         <button
           onClick={() => {
             console.log(ToolbarStatus);
@@ -124,7 +142,7 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
         >
           test
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -71,3 +71,20 @@ body {
   position: absolute;
   z-index: 1;
 }
+.textTool {
+  position: absolute;
+  z-index: 5;
+  cursor: text;
+  .textTool__input {
+    // border: none;
+    background-color: transparent;
+  }
+  .warper1 {
+    .textTool__fontSelect {
+      width: 100%;
+    }
+  }
+  .warper2 {
+    display: flex;
+  }
+}

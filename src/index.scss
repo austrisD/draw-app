@@ -1,7 +1,10 @@
 body {
   background-color: antiquewhite;
 }
-
+.cursorCandidates{
+  position: absolute;
+  font-size: 13px;
+}
 .App {
   display: flex;
   flex-direction: row;

@@ -4,18 +4,18 @@ export const Pen = {
   lineWidth: "",
   color: "",
   start: (X, Y) => {
-    Object.ctxRef.current.moveTo(X, Y);
-    Object.ctxRef.current.lineWidth = Object.lineWidth;
-    Object.ctxRef.current.strokeStyle = Object.color;
-    Object.ctxRef.current.lineCap = "round";
-    Object.ctxRef.current.beginPath();
+    Object.ctxRef.moveTo(X, Y);
+    Object.ctxRef.lineWidth = Object.lineWidth;
+    Object.ctxRef.strokeStyle = Object.color;
+    Object.ctxRef.lineCap = "round";
+    Object.ctxRef.beginPath();
   },
   action: (X, Y) => {
-    Object.ctxRef.current.lineTo(X, Y);
-    Object.ctxRef.current.stroke();
+    Object.ctxRef.lineTo(X, Y);
+    Object.ctxRef.stroke();
   },
   stop: (X, Y) => {
-    Object.ctxRef.current.closePath();
+    Object.ctxRef.closePath();
   },
   cursorFunction: (ctxRef, X, Y) => {},
 
@@ -34,19 +34,19 @@ export const dragLine = {
   initialLocX: null,
   initialLocY: null,
   start: (X, Y) => {
-    Object.ctxRef.current.lineWidth = Object.lineWidth;
-    Object.ctxRef.current.strokeStyle = Object.color;
-    Object.ctxRef.current.lineCap = "round";
+    Object.ctxRef.lineWidth = Object.lineWidth;
+    Object.ctxRef.strokeStyle = Object.color;
+    Object.ctxRef.lineCap = "round";
     Object.initialLocX = X;
     Object.initialLocY = Y;
-    Object.ctxRef.current.beginPath();
-    Object.ctxRef.current.moveTo(X, Y);
+    Object.ctxRef.beginPath();
+    Object.ctxRef.moveTo(X, Y);
   },
   action: (X, Y) => {},
   stop: (X, Y) => {
-    Object.ctxRef.current.lineTo(X, Y);
-    Object.ctxRef.current.stroke();
-    Object.ctxRef.current.closePath();
+    Object.ctxRef.lineTo(X, Y);
+    Object.ctxRef.stroke();
+    Object.ctxRef.closePath();
   },
   cursorFunction: (ctxRef, X, Y) => {
     ctxRef.clearRect(0, 0, 800, 800);
@@ -78,19 +78,21 @@ export const Arc = {
     console.log("works");
   },
   start: (X, Y) => {
-    Object.ctxRef.current.lineWidth = Object.lineWidth;
-    Object.ctxRef.current.strokeStyle = Object.color;
-    Object.ctxRef.current.beginPath();
+    Object.ctxRef.lineWidth = Object.lineWidth;
+    Object.ctxRef.strokeStyle = Object.color;
+    Object.ctxRef.beginPath();
     Object.arcX = X;
     Object.arcY = Y;
   },
   action: (X, Y) => {
-    Object.arcSize = Math.abs(Object.arcY - Y);
+    let xAxisRadius = Math.abs(Object.arcX - X);
+    let yAxisRadius = Math.abs(Object.arcY - Y);
+    Object.arcSize = xAxisRadius > yAxisRadius ? xAxisRadius : yAxisRadius;
   },
   stop: (X, Y) => {
-    Object.ctxRef.current.arc(Object.arcX, Object.arcY, Object.arcSize, 0, 7);
-    Object.ctxRef.current.stroke();
-    Object.ctxRef.current.closePath();
+    Object.ctxRef.arc(Object.arcX, Object.arcY, Object.arcSize, 0, 7);
+    Object.ctxRef.stroke();
+    Object.ctxRef.closePath();
   },
   cursorFunction: (ctxRef, X, Y) => {
     ctxRef.clearRect(0, 0, 800, 800);
@@ -119,9 +121,9 @@ export const squareFill = {
   arcY: 0,
   arcSize: 0,
   start: (X, Y) => {
-    Object.ctxRef.current.lineWidth = Object.lineWidth;
-    Object.ctxRef.current.fillStyle = Object.color;
-    Object.ctxRef.current.beginPath();
+    Object.ctxRef.lineWidth = Object.lineWidth;
+    Object.ctxRef.fillStyle = Object.color;
+    Object.ctxRef.beginPath();
     Object.arcX = X;
     Object.arcY = Y;
   },
@@ -129,14 +131,14 @@ export const squareFill = {
   stop: (X, Y) => {
     let squareWidth = Math.abs(Object.arcX - X);
     let squareHeight = Math.abs(Object.arcY - Y);
-    Object.ctxRef.current.fillRect(
+    Object.ctxRef.fillRect(
       Object.arcX < X ? Object.arcX : Object.arcX - squareWidth,
       Object.arcY < Y ? Object.arcY : Object.arcY - squareHeight,
       squareWidth,
       squareHeight
     );
-    Object.ctxRef.current.stroke();
-    Object.ctxRef.current.closePath();
+    Object.ctxRef.stroke();
+    Object.ctxRef.closePath();
   },
   cursorFunction: (ctxRef, X, Y) => {
     let squareWidth = Math.abs(Object.arcX - X);
@@ -170,22 +172,22 @@ export const square = {
   click1X: null,
   click1Y: null,
   start: (X, Y) => {
-    Object.ctxRef.current.lineWidth = Object.lineWidth;
-    Object.ctxRef.current.strokeStyle = Object.color;
-    Object.ctxRef.current.lineCap = "square";
-    Object.ctxRef.current.beginPath();
-    Object.ctxRef.current.moveTo(X, Y);
+    Object.ctxRef.lineWidth = Object.lineWidth;
+    Object.ctxRef.strokeStyle = Object.color;
+    Object.ctxRef.lineCap = "square";
+    Object.ctxRef.beginPath();
+    Object.ctxRef.moveTo(X, Y);
     Object.click1X = X;
     Object.click1Y = Y;
   },
   action: (X, Y) => {},
   stop: (X, Y) => {
-    Object.ctxRef.current.lineTo(X, Object.click1Y);
-    Object.ctxRef.current.lineTo(X, Y);
-    Object.ctxRef.current.lineTo(Object.click1X, Y);
-    Object.ctxRef.current.lineTo(Object.click1X, Object.click1Y);
-    Object.ctxRef.current.stroke();
-    Object.ctxRef.current.closePath();
+    Object.ctxRef.lineTo(X, Object.click1Y);
+    Object.ctxRef.lineTo(X, Y);
+    Object.ctxRef.lineTo(Object.click1X, Y);
+    Object.ctxRef.lineTo(Object.click1X, Object.click1Y);
+    Object.ctxRef.stroke();
+    Object.ctxRef.closePath();
   },
   cursorFunction: (ctxRef, X, Y) => {
     ctxRef.clearRect(0, 0, 800, 800);
@@ -216,8 +218,8 @@ export const text = {
   lineWidth: "",
   color: "",
   start: (X, Y) => {
-    Object.ctxRef.current.lineWidth = Object.lineWidth;
-    Object.ctxRef.current.strokeStyle = Object.color;
+    Object.ctxRef.lineWidth = Object.lineWidth;
+    Object.ctxRef.strokeStyle = Object.color;
   },
   action: (X, Y) => {},
   stop: (X, Y) => {},

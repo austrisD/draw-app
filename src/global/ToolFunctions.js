@@ -3,21 +3,22 @@ export const Pen = {
   ctxRef: "",
   lineWidth: "",
   color: "",
-  start: (X, Y) => {
-    Object.ctxRef.moveTo(X, Y);
+  start: (Axis) => {
+    Object.ctxRef.moveTo(Axis.X, Axis.Y);
     Object.ctxRef.lineWidth = Object.lineWidth;
     Object.ctxRef.strokeStyle = Object.color;
     Object.ctxRef.lineCap = "round";
     Object.ctxRef.beginPath();
   },
-  action: (X, Y) => {
-    Object.ctxRef.lineTo(X, Y);
+  action: (Axis) => {
+    Object.ctxRef.lineTo(Axis.X, Axis.Y);
     Object.ctxRef.stroke();
+    console.log(Axis);
   },
-  stop: (X, Y) => {
+  stop: (Axis) => {
     Object.ctxRef.closePath();
   },
-  cursorFunction: (ctxRef, X, Y) => {},
+  cursorFunction: (ctxRef, Axis) => {},
 
   set: (ctxRef, lineWidth, color) => {
     Object.ctxRef = ctxRef;
@@ -33,29 +34,29 @@ export const dragLine = {
   color: "",
   initialLocX: null,
   initialLocY: null,
-  start: (X, Y) => {
+  start: (Axis) => {
     Object.ctxRef.lineWidth = Object.lineWidth;
     Object.ctxRef.strokeStyle = Object.color;
     Object.ctxRef.lineCap = "round";
-    Object.initialLocX = X;
-    Object.initialLocY = Y;
+    Object.initialLocX = Axis.X;
+    Object.initialLocY = Axis.Y;
     Object.ctxRef.beginPath();
-    Object.ctxRef.moveTo(X, Y);
+    Object.ctxRef.moveTo(Axis.X, Axis.Y);
   },
-  action: (X, Y) => {},
-  stop: (X, Y) => {
-    Object.ctxRef.lineTo(X, Y);
+  action: (Axis) => {},
+  stop: (Axis) => {
+    Object.ctxRef.lineTo(Axis.X, Axis.Y);
     Object.ctxRef.stroke();
     Object.ctxRef.closePath();
   },
-  cursorFunction: (ctxRef, X, Y) => {
+  cursorFunction: (ctxRef, Axis) => {
     ctxRef.clearRect(0, 0, 800, 800);
     ctxRef.lineWidth = Object.lineWidth;
     ctxRef.strokeStyle = Object.color;
     ctxRef.lineCap = "round";
     ctxRef.beginPath();
     ctxRef.moveTo(Object.initialLocX, Object.initialLocY);
-    ctxRef.lineTo(X, Y);
+    ctxRef.lineTo(Axis.X, Axis.Y);
     ctxRef.stroke();
     ctxRef.closePath();
   },
@@ -74,27 +75,25 @@ export const Arc = {
   arcX: 0,
   arcY: 0,
   arcSize: 0,
-  test: () => {
-    console.log("works");
-  },
-  start: (X, Y) => {
+  start: (Axis) => {
     Object.ctxRef.lineWidth = Object.lineWidth;
     Object.ctxRef.strokeStyle = Object.color;
+    Object.ctxRef.lineCap = "round";
     Object.ctxRef.beginPath();
-    Object.arcX = X;
-    Object.arcY = Y;
+    Object.arcX = Axis.X;
+    Object.arcY = Axis.Y;
   },
-  action: (X, Y) => {
-    let xAxisRadius = Math.abs(Object.arcX - X);
-    let yAxisRadius = Math.abs(Object.arcY - Y);
+  action: (Axis) => {
+    let xAxisRadius = Math.abs(Object.arcX - Axis.X);
+    let yAxisRadius = Math.abs(Object.arcY - Axis.Y);
     Object.arcSize = xAxisRadius > yAxisRadius ? xAxisRadius : yAxisRadius;
   },
-  stop: (X, Y) => {
+  stop: (Axis) => {
     Object.ctxRef.arc(Object.arcX, Object.arcY, Object.arcSize, 0, 7);
     Object.ctxRef.stroke();
     Object.ctxRef.closePath();
   },
-  cursorFunction: (ctxRef, X, Y) => {
+  cursorFunction: (ctxRef, Axis) => {
     ctxRef.clearRect(0, 0, 800, 800);
     ctxRef.lineWidth = Object.lineWidth;
     ctxRef.strokeStyle = Object.color;
@@ -110,7 +109,6 @@ export const Arc = {
     Object.color = color;
   },
 };
-//arc size must by calculated by bout axis   add arcRadiusDisplay length
 /*******************************************************************/
 export const squareFill = {
   name: "squareFill",
@@ -120,43 +118,42 @@ export const squareFill = {
   arcX: 0,
   arcY: 0,
   arcSize: 0,
-  start: (X, Y) => {
+  start: (Axis) => {
     Object.ctxRef.lineWidth = Object.lineWidth;
     Object.ctxRef.fillStyle = Object.color;
     Object.ctxRef.beginPath();
-    Object.arcX = X;
-    Object.arcY = Y;
+    Object.arcX = Axis.X;
+    Object.arcY = Axis.Y;
   },
-  action: (X, Y) => {},
-  stop: (X, Y) => {
-    let squareWidth = Math.abs(Object.arcX - X);
-    let squareHeight = Math.abs(Object.arcY - Y);
+  action: (Axis) => {},
+  stop: (Axis) => {
+    let squareWidth = Math.abs(Object.arcX - Axis.X);
+    let squareHeight = Math.abs(Object.arcY - Axis.Y);
     Object.ctxRef.fillRect(
-      Object.arcX < X ? Object.arcX : Object.arcX - squareWidth,
-      Object.arcY < Y ? Object.arcY : Object.arcY - squareHeight,
+      Object.arcX < Axis.X ? Object.arcX : Object.arcX - squareWidth,
+      Object.arcY < Axis.Y ? Object.arcY : Object.arcY - squareHeight,
       squareWidth,
       squareHeight
     );
     Object.ctxRef.stroke();
     Object.ctxRef.closePath();
   },
-  cursorFunction: (ctxRef, X, Y) => {
-    let squareWidth = Math.abs(Object.arcX - X);
-    let squareHeight = Math.abs(Object.arcY - Y);
+  cursorFunction: (ctxRef, Axis) => {
+    let squareWidth = Math.abs(Object.arcX - Axis.X);
+    let squareHeight = Math.abs(Object.arcY - Axis.Y);
     ctxRef.clearRect(0, 0, 800, 800);
     ctxRef.lineWidth = Object.lineWidth;
     ctxRef.fillStyle = Object.color;
     ctxRef.beginPath();
     ctxRef.fillRect(
-      Object.arcX < X ? Object.arcX : Object.arcX - squareWidth,
-      Object.arcY < Y ? Object.arcY : Object.arcY - squareHeight,
+      Object.arcX < Axis.X ? Object.arcX : Object.arcX - squareWidth,
+      Object.arcY < Axis.Y ? Object.arcY : Object.arcY - squareHeight,
       squareWidth,
       squareHeight
     );
     ctxRef.stroke();
     ctxRef.closePath();
   },
-
   set: (ctxRef, lineWidth, color) => {
     Object.ctxRef = ctxRef;
     Object.lineWidth = lineWidth;
@@ -171,34 +168,34 @@ export const square = {
   color: "",
   click1X: null,
   click1Y: null,
-  start: (X, Y) => {
+  start: (Axis) => {
     Object.ctxRef.lineWidth = Object.lineWidth;
     Object.ctxRef.strokeStyle = Object.color;
     Object.ctxRef.lineCap = "square";
     Object.ctxRef.beginPath();
-    Object.ctxRef.moveTo(X, Y);
-    Object.click1X = X;
-    Object.click1Y = Y;
+    Object.ctxRef.moveTo(Axis.X, Axis.Y);
+    Object.click1X = Axis.X;
+    Object.click1Y = Axis.Y;
   },
-  action: (X, Y) => {},
-  stop: (X, Y) => {
-    Object.ctxRef.lineTo(X, Object.click1Y);
-    Object.ctxRef.lineTo(X, Y);
-    Object.ctxRef.lineTo(Object.click1X, Y);
+  action: (Axis) => {},
+  stop: (Axis) => {
+    Object.ctxRef.lineTo(Axis.X, Object.click1Y);
+    Object.ctxRef.lineTo(Axis.X, Axis.Y);
+    Object.ctxRef.lineTo(Object.click1X, Axis.Y);
     Object.ctxRef.lineTo(Object.click1X, Object.click1Y);
     Object.ctxRef.stroke();
     Object.ctxRef.closePath();
   },
-  cursorFunction: (ctxRef, X, Y) => {
+  cursorFunction: (ctxRef, Axis) => {
     ctxRef.clearRect(0, 0, 800, 800);
     ctxRef.lineWidth = Object.lineWidth;
     ctxRef.strokeStyle = Object.color;
     ctxRef.lineCap = "square";
     ctxRef.beginPath();
     ctxRef.moveTo(Object.click1X, Object.click1Y);
-    ctxRef.lineTo(X, Object.click1Y);
-    ctxRef.lineTo(X, Y);
-    ctxRef.lineTo(Object.click1X, Y);
+    ctxRef.lineTo(Axis.X, Object.click1Y);
+    ctxRef.lineTo(Axis.X, Axis.Y);
+    ctxRef.lineTo(Object.click1X, Axis.Y);
     ctxRef.lineTo(Object.click1X, Object.click1Y);
     ctxRef.stroke();
     ctxRef.closePath();
@@ -221,14 +218,14 @@ export const text = {
   textMenuX: null,
   textMenuY: null,
   textValue: "",
-  start: (X, Y) => {
-    Object.textMenuX = X;
-    Object.textMenuY = Y;
+  start: (Axis) => {
+    Object.textMenuX = Axis.X;
+    Object.textMenuY = Axis.Y;
     Object.textMenu = true;
   },
-  action: (X, Y) => {},
-  stop: (X, Y) => {},
-  cursorFunction: (ctxRef, X, Y) => {},
+  action: (Axis) => {},
+  stop: (Axis) => {},
+  cursorFunction: (ctxRef, Axis) => {},
   place: (TextToolValue, color) => {
     Object.ctxRef.font = `${Object.lineWidth}px Arial`;
     Object.ctxRef.fillStyle = color;
@@ -242,6 +239,6 @@ export const text = {
     Object.textMenu = textMenu;
   },
 };
-//maxWidth
+//maxWidth , placement adjust,  font picker  ,eases of use,drag
 
 //more reformations needed!!!

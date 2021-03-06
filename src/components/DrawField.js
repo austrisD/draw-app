@@ -8,7 +8,7 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
   const ctxRefVisual = useRef(null);
 
   const [IsDrawing, setIsDrawing] = useState(false);
-  const [MouseLoc, setMouseLoc] = useState({ XAxis: 0, YAxis: 0 });
+  const [MouseLoc, setMouseLoc] = useState({ X: 0, Y: 0 });
   const [CoordinatesActive, setCoordinatesActive] = useState(false);
   const [TextToolValue, setTextToolValue] = useState("");
 
@@ -61,7 +61,7 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
         ref={canvasRefVisual}
         onMouseDown={() => {
           setIsDrawing(true);
-          ToolbarStatus.tool.start(MouseLoc.XAxis, MouseLoc.YAxis);
+          ToolbarStatus.tool.start(MouseLoc);
           if (ToolbarStatus.tool.Name === "text") {
             ToolbarStatus.tool.textMenu = true;
             ToolbarStatus.tool.textMenuY = MouseLoc.YAxis;
@@ -72,39 +72,24 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
         onMouseMove={(event) => {
           setCoordinatesActive(true);
           setMouseLoc({
-            XAxis: event.clientX - canvasRef.current.offsetLeft,
-            YAxis: event.clientY - canvasRef.current.offsetTop,
+            X: event.clientX - canvasRef.current.offsetLeft,
+            Y: event.clientY - canvasRef.current.offsetTop,
           });
           if (!IsDrawing) return;
-          ToolbarStatus.tool.cursorFunction(
-            ctxRefVisual.current,
-            MouseLoc.XAxis,
-            MouseLoc.YAxis
-          );
-          ToolbarStatus.tool.action(MouseLoc.XAxis, MouseLoc.YAxis);
+          ToolbarStatus.tool.cursorFunction(ctxRefVisual.current, MouseLoc);
+          ToolbarStatus.tool.action(MouseLoc);
         }}
         onMouseUp={() => {
-          ToolbarStatus.tool.stop(MouseLoc.XAxis, MouseLoc.YAxis);
+          ToolbarStatus.tool.stop(MouseLoc);
           setIsDrawing(false);
         }}
         onMouseLeave={() => {
           setCoordinatesActive(false);
         }}
       />
-      <p
-        style={{
-          display: CoordinatesActive ? "block" : "none",
-          top: MouseLoc.YAxis - 10,
-          left: MouseLoc.XAxis + 130,
-        }}
-        className="cursorCandidates"
-      >
-        {`X:${MouseLoc.XAxis}`}
-        <br />
-        {`Y:${MouseLoc.YAxis}`}
-      </p>
+
       {/** VVVVVV writing tool support window VVVVV  */}
-      <div
+      {/* <div
         className="textTool"
         style={{
           display: ToolbarStatus.tool.textMenu === true ? "block" : "none",
@@ -112,40 +97,40 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
           left: ToolbarStatus.tool.textMenuX,
         }}
       >
-        <div className="warper1">
-          <select className="textTool__fontSelect">
-            <option value="font" key="1">
-              sad
-            </option>
-            <option value="font" key="2">
-              asdsad
-            </option>
-            <option value="font" key="3">
-              asdasd
-            </option>
-          </select>
-        </div>
-        <div className="warper2">
-          <input
-            type="text"
-            onChange={(event) => {
-              setTextToolValue(event.target.value);
-            }}
-            value={TextToolValue}
-            className="textTool__input"
-            style={{ color: ToolbarStatus.color }}
-          />
-          <button
-            onClick={() => {
-              ToolbarStatus.tool.lineWidth = ToolbarStatus.tool.lineWidth;
-              ToolbarStatus.tool.place(TextToolValue, ToolbarStatus.color);
-            }}
-          >
-            Ok
-          </button>
-        </div>
-      </div>
+        <input
+          type="textarea"
+          onChange={(event) => {
+            setTextToolValue(event.target.value);
+          }}
+          value={TextToolValue}
+          className="textTool__input"
+          style={{
+            display: ToolbarStatus.tool.textMenu === true ? "block" : "none",
+            top: ToolbarStatus.tool.textMenuY,
+            left: ToolbarStatus.tool.textMenuX,
+            color: ToolbarStatus.color,
+            fontSize: `${ToolbarStatus.lineWidth}px`,
+          }}
+          onKeyDown={(event) => {
+            if (event.key != "Enter") return;
+            ToolbarStatus.tool.lineWidth = ToolbarStatus.tool.lineWidth;
+            ToolbarStatus.tool.place(TextToolValue, ToolbarStatus.color);
+          }}
+        />
+      </div> */}
       {/**^^^^^^^^^^^^writing tool support window ^^^^^^^^  */}
+      <p
+        style={{
+          display: CoordinatesActive ? "block" : "none",
+          top: MouseLoc.Y - 10,
+          left: MouseLoc.X + 130,
+        }}
+        className="cursorCandidates"
+      >
+        {`X:${MouseLoc.X}`}
+        <br />
+        {`Y:${MouseLoc.Y}`}
+      </p>
 
       {/* <button
         onClick={() => {

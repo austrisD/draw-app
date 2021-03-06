@@ -132,6 +132,24 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
         }}
       >
         <VscTextSize style={{ width: "25px", height: "25px" }} />
+        <div
+          className="ToolSettings"
+          style={{
+            display: ToolbarStatus.tool.Name === "text" ? "block" : "none",
+          }}
+        >
+          <select className="textTool__fontSelect">
+            <option value="font" key="1">
+              font1
+            </option>
+            <option value="font" key="2">
+              font2
+            </option>
+            <option value="font" key="3">
+              font 3
+            </option>
+          </select>
+        </div>
       </div>
 
       {/* <div>

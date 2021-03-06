@@ -6,10 +6,16 @@ body {
   font-size: 13px;
   z-index: 10;
 }
+.canvasRefVisual {
+  position: absolute;
+  z-index: 1;
+}
 .App {
   display: flex;
   flex-direction: row;
   gap: 10px;
+  width: 100%;
+  height: 100%;
 }
 .Toolbar {
   display: flex;
@@ -67,24 +73,27 @@ body {
   }
 }
 
-.canvasRefVisual {
-  position: absolute;
-  z-index: 1;
-}
 .textTool {
   position: absolute;
   z-index: 5;
+  // transform: translate(50%,-50%);
   cursor: text;
   .textTool__input {
+    box-sizing: content-box;
     // border: none;
     background-color: transparent;
-  }
-  .warper1 {
-    .textTool__fontSelect {
-      width: 100%;
+    padding: 0;
+    margin: 0;
+    width: 200px;
+    border: none;
+    transform: translateX(55%) translateY(-60%);
+    &:focus {
+      outline: none;
     }
   }
-  .warper2 {
-    display: flex;
-  }
+}
+.ToolSettings {
+  position: absolute;
+  top: 100px;
+  left: 500px;
 }

@@ -6,6 +6,7 @@
   "description": "basic draping app",
   "main": "index.html",
   "private": true,
+  "homepage": "https://austrisd.github.io/Test/",
   "repository": {
     "type": "git",
     "url": "https://github.com/austrisD/draw-app"
@@ -14,7 +15,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",

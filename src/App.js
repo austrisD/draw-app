@@ -12,18 +12,11 @@ function App() {
         setToolbarStatus={setToolbarStatus}
         ToolbarStatus={ToolbarStatus}
       />
+
       <DrawField
         ToolbarStatus={ToolbarStatus}
         setToolbarStatus={setToolbarStatus}
       />
-
-      {/* <button
-        onClick={() => {
-          console.log(ToolbarStatus);
-        }}
-      >
-        test
-      </button> */}
     </div>
   );
 }

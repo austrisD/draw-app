@@ -1,215 +1,249 @@
-export const Pen = {
-  Name: "pen",
-  ctxRef: "",
-  lineWidth: "",
-  color: "",
-  start: (Axis) => {
-    Object.ctxRef.moveTo(Axis.X, Axis.Y);
-    Object.ctxRef.lineWidth = Object.lineWidth;
-    Object.ctxRef.strokeStyle = Object.color;
-    Object.ctxRef.lineCap = "round";
-    Object.ctxRef.beginPath();
-  },
-  action: (Axis) => {
-    Object.ctxRef.lineTo(Axis.X, Axis.Y);
-    Object.ctxRef.stroke();
-    console.log(Axis);
-  },
-  stop: (Axis) => {
-    Object.ctxRef.closePath();
-  },
-  cursorFunction: (ctxRef, Axis) => {},
+class standardTool {
+  lineWidth = "5";
+  color = "";
+  ctxRef = null;
+  ctxRefV = null;
+  defineInputs() {
+    if (this.ctxRef === null || this.ctxRefV === null) {
+      this.ctxRef = document.getElementById("image").getContext("2d");
+      this.ctxRefV = document.getElementById("overlay").getContext("2d");
+    }
+    this.ctxRef.lineWidth = this.lineWidth;
+    this.ctxRef.strokeStyle = this.color;
+  }
+  openAction() {
+    this.ctxRef.beginPath();
+  }
+  closeAction() {
+    this.ctxRef.stroke();
+    this.ctxRef.closePath();
+  }
+  setColor(color) {
+    this.color = color;
+  }
+  setLineWidth(lineWidth) {
+    this.lineWidth = lineWidth;
+  }
+}
 
-  set: (ctxRef, lineWidth, color) => {
-    Object.ctxRef = ctxRef;
-    Object.lineWidth = lineWidth;
-    Object.color = color;
-  },
-};
+class createPen extends standardTool {
+  constructor(name) {
+    super();
+    this.name = name;
+  }
+  name = this.name;
+  start(Axis) {
+    this.defineInputs();
+    this.ctxRef.beginPath();
+    this.ctxRef.lineWidth = this.lineWidth;
+    this.ctxRef.strokeStyle = this.color;
+    this.ctxRef.moveTo(Axis.X, Axis.Y);
+  }
+  action(Axis) {
+    this.ctxRef.lineTo(Axis.X, Axis.Y);
+    this.ctxRef.stroke();
+  }
+  stop() {
+    this.ctxRef.closePath();
+  }
+  cursorFunction(Axis) {
+    this.ctxRefV.clearRect(0, 0, 800, 800);
+    this.ctxRefV.lineWidth = this.lineWidth;
+    this.ctxRefV.strokeStyle = this.color;
+    this.ctxRefV.lineCap = "round";
+    this.ctxRefV.moveTo(Axis.X, Axis.Y);
+    this.ctxRefV.beginPath();
+    this.ctxRefV.lineTo(Axis.X, Axis.Y);
+    this.ctxRefV.stroke();
+    this.ctxRefV.closePath();
+  }
+}
+export const Pen = new createPen("pen");
 /*******************************************************************/
-export const dragLine = {
-  name: "dragLine",
-  ctxRef: "",
-  lineWidth: "",
-  color: "",
-  initialLocX: null,
-  initialLocY: null,
-  start: (Axis) => {
-    Object.ctxRef.lineWidth = Object.lineWidth;
-    Object.ctxRef.strokeStyle = Object.color;
-    Object.ctxRef.lineCap = "round";
-    Object.initialLocX = Axis.X;
-    Object.initialLocY = Axis.Y;
-    Object.ctxRef.beginPath();
-    Object.ctxRef.moveTo(Axis.X, Axis.Y);
-  },
-  action: (Axis) => {},
-  stop: (Axis) => {
-    Object.ctxRef.lineTo(Axis.X, Axis.Y);
-    Object.ctxRef.stroke();
-    Object.ctxRef.closePath();
-  },
-  cursorFunction: (ctxRef, Axis) => {
-    ctxRef.clearRect(0, 0, 800, 800);
-    ctxRef.lineWidth = Object.lineWidth;
-    ctxRef.strokeStyle = Object.color;
-    ctxRef.lineCap = "round";
-    ctxRef.beginPath();
-    ctxRef.moveTo(Object.initialLocX, Object.initialLocY);
-    ctxRef.lineTo(Axis.X, Axis.Y);
-    ctxRef.stroke();
-    ctxRef.closePath();
-  },
-  set: (ctxRef, lineWidth, color) => {
-    Object.ctxRef = ctxRef;
-    Object.lineWidth = lineWidth;
-    Object.color = color;
-  },
-};
+
+class createDragLine extends standardTool {
+  constructor(name) {
+    super();
+    this.name = name;
+  }
+  name = this.name;
+  initialLoc = null;
+  initialLocY = null;
+  start(Axis) {
+    this.defineInputs();
+    this.ctxRef.lineCap = "round";
+    this.initialLocX = Axis.X;
+    this.initialLocY = Axis.Y;
+    this.openAction();
+    this.ctxRef.moveTo(Axis.X, Axis.Y);
+  }
+  action(Axis) {}
+  stop(Axis) {
+    this.ctxRef.lineTo(Axis.X, Axis.Y);
+    this.closeAction();
+  }
+  cursorFunction(Axis) {
+    this.ctxRefV.clearRect(0, 0, 800, 800);
+    this.ctxRefV.lineWidth = this.lineWidth;
+    this.ctxRefV.strokeStyle = this.color;
+    this.ctxRefV.lineCap = "round";
+    this.ctxRefV.beginPath();
+    this.ctxRefV.moveTo(this.initialLocX, this.initialLocY);
+    this.ctxRefV.lineTo(Axis.X, Axis.Y);
+    this.ctxRefV.stroke();
+    this.ctxRefV.closePath();
+  }
+}
+export const dragLine = new createDragLine("dragLine");
 /*******************************************************************/
-export const Arc = {
-  name: "arc",
-  ctxRef: "",
-  lineWidth: "",
-  color: "",
-  arcX: 0,
-  arcY: 0,
-  arcSize: 0,
-  start: (Axis) => {
-    Object.ctxRef.lineWidth = Object.lineWidth;
-    Object.ctxRef.strokeStyle = Object.color;
-    Object.ctxRef.lineCap = "round";
-    Object.ctxRef.beginPath();
-    Object.arcX = Axis.X;
-    Object.arcY = Axis.Y;
-  },
-  action: (Axis) => {
-    let xAxisRadius = Math.abs(Object.arcX - Axis.X);
-    let yAxisRadius = Math.abs(Object.arcY - Axis.Y);
-    Object.arcSize = xAxisRadius > yAxisRadius ? xAxisRadius : yAxisRadius;
-  },
-  stop: (Axis) => {
-    Object.ctxRef.arc(Object.arcX, Object.arcY, Object.arcSize, 0, 7);
-    Object.ctxRef.stroke();
-    Object.ctxRef.closePath();
-  },
-  cursorFunction: (ctxRef, Axis) => {
-    ctxRef.clearRect(0, 0, 800, 800);
-    ctxRef.lineWidth = Object.lineWidth;
-    ctxRef.strokeStyle = Object.color;
-    ctxRef.beginPath();
-    ctxRef.arc(Object.arcX, Object.arcY, Object.arcSize, 0, 7);
-    ctxRef.stroke();
-    ctxRef.closePath();
-    // Object.test();
-  },
-  set: (ctxRef, lineWidth, color) => {
-    Object.ctxRef = ctxRef;
-    Object.lineWidth = lineWidth;
-    Object.color = color;
-  },
-};
+class createArc extends standardTool {
+  constructor(name) {
+    super();
+    this.name = name;
+  }
+  name = this.name;
+  arcX = 0;
+  arcY = 0;
+  arcSize = 0;
+  start(Axis) {
+    this.defineInputs();
+    this.ctxRef.lineCap = "round";
+    this.openAction();
+    this.arcX = Axis.X;
+    this.arcY = Axis.Y;
+  }
+  action(Axis) {
+    let xAxisRadius = Math.abs(this.arcX - Axis.X);
+    let yAxisRadius = Math.abs(this.arcY - Axis.Y);
+    this.arcSize = xAxisRadius > yAxisRadius ? xAxisRadius : yAxisRadius;
+  }
+  stop(Axis) {
+    this.ctxRef.arc(this.arcX, this.arcY, this.arcSize, 0, 7);
+    this.ctxRef.stroke();
+    this.closeAction();
+  }
+  cursorFunction(Axis) {
+    this.ctxRefV.clearRect(0, 0, 800, 800);
+    this.ctxRefV.lineWidth = this.lineWidth;
+    this.ctxRefV.strokeStyle = this.color;
+    this.ctxRefV.beginPath();
+    this.ctxRefV.arc(this.arcX, this.arcY, this.arcSize, 0, 7);
+    this.ctxRefV.stroke();
+    this.ctxRefV.closePath();
+  }
+}
+export const Arc = new createArc("arc");
+//clear on mouse realise visual canvas
 /*******************************************************************/
-export const squareFill = {
-  name: "squareFill",
-  ctxRef: "",
-  lineWidth: "",
-  color: "",
-  arcX: 0,
-  arcY: 0,
-  arcSize: 0,
-  start: (Axis) => {
-    Object.ctxRef.lineWidth = Object.lineWidth;
-    Object.ctxRef.fillStyle = Object.color;
-    Object.ctxRef.beginPath();
-    Object.arcX = Axis.X;
-    Object.arcY = Axis.Y;
-  },
-  action: (Axis) => {},
-  stop: (Axis) => {
-    let squareWidth = Math.abs(Object.arcX - Axis.X);
-    let squareHeight = Math.abs(Object.arcY - Axis.Y);
-    Object.ctxRef.fillRect(
-      Object.arcX < Axis.X ? Object.arcX : Object.arcX - squareWidth,
-      Object.arcY < Axis.Y ? Object.arcY : Object.arcY - squareHeight,
+class createSquareFill extends standardTool {
+  constructor(name) {
+    super();
+    this.name = name;
+  }
+  arcX = 0;
+  arcY = 0;
+  arcSize = 0;
+  start(Axis) {
+    this.defineInputs();
+    this.ctxRef.fillStyle = this.color;
+    this.openAction();
+    this.arcX = Axis.X;
+    this.arcY = Axis.Y;
+  }
+  action(Axis) {}
+  stop(Axis) {
+    let squareWidth = Math.abs(this.arcX - Axis.X);
+    let squareHeight = Math.abs(this.arcY - Axis.Y);
+    this.ctxRef.fillRect(
+      this.arcX < Axis.X ? this.arcX : this.arcX - squareWidth,
+      this.arcY < Axis.Y ? this.arcY : this.arcY - squareHeight,
       squareWidth,
       squareHeight
     );
-    Object.ctxRef.stroke();
-    Object.ctxRef.closePath();
-  },
-  cursorFunction: (ctxRef, Axis) => {
-    let squareWidth = Math.abs(Object.arcX - Axis.X);
-    let squareHeight = Math.abs(Object.arcY - Axis.Y);
-    ctxRef.clearRect(0, 0, 800, 800);
-    ctxRef.lineWidth = Object.lineWidth;
-    ctxRef.fillStyle = Object.color;
-    ctxRef.beginPath();
-    ctxRef.fillRect(
-      Object.arcX < Axis.X ? Object.arcX : Object.arcX - squareWidth,
-      Object.arcY < Axis.Y ? Object.arcY : Object.arcY - squareHeight,
+    this.closeAction();
+  }
+  cursorFunction(Axis) {
+    let squareWidth = Math.abs(this.arcX - Axis.X);
+    let squareHeight = Math.abs(this.arcY - Axis.Y);
+    this.ctxRefV.clearRect(0, 0, 800, 800);
+    this.ctxRefV.lineWidth = this.lineWidth;
+    this.ctxRefV.fillStyle = this.color;
+    this.ctxRefV.beginPath();
+    this.ctxRefV.fillRect(
+      this.arcX < Axis.X ? this.arcX : this.arcX - squareWidth,
+      this.arcY < Axis.Y ? this.arcY : this.arcY - squareHeight,
       squareWidth,
       squareHeight
     );
-    ctxRef.stroke();
-    ctxRef.closePath();
-  },
-  set: (ctxRef, lineWidth, color) => {
-    Object.ctxRef = ctxRef;
-    Object.lineWidth = lineWidth;
-    Object.color = color;
-  },
-};
+    this.ctxRefV.stroke();
+    this.ctxRefV.closePath();
+  }
+}
+export const squareFill = new createSquareFill("squareFill");
 /*******************************************************************/
-export const square = {
-  name: "square",
-  ctxRef: "",
-  lineWidth: "",
-  color: "",
-  click1X: null,
-  click1Y: null,
-  start: (Axis) => {
-    Object.ctxRef.lineWidth = Object.lineWidth;
-    Object.ctxRef.strokeStyle = Object.color;
-    Object.ctxRef.lineCap = "square";
-    Object.ctxRef.beginPath();
-    Object.ctxRef.moveTo(Axis.X, Axis.Y);
-    Object.click1X = Axis.X;
-    Object.click1Y = Axis.Y;
-  },
-  action: (Axis) => {},
-  stop: (Axis) => {
-    Object.ctxRef.lineTo(Axis.X, Object.click1Y);
-    Object.ctxRef.lineTo(Axis.X, Axis.Y);
-    Object.ctxRef.lineTo(Object.click1X, Axis.Y);
-    Object.ctxRef.lineTo(Object.click1X, Object.click1Y);
-    Object.ctxRef.stroke();
-    Object.ctxRef.closePath();
-  },
-  cursorFunction: (ctxRef, Axis) => {
-    ctxRef.clearRect(0, 0, 800, 800);
-    ctxRef.lineWidth = Object.lineWidth;
-    ctxRef.strokeStyle = Object.color;
-    ctxRef.lineCap = "square";
-    ctxRef.beginPath();
-    ctxRef.moveTo(Object.click1X, Object.click1Y);
-    ctxRef.lineTo(Axis.X, Object.click1Y);
-    ctxRef.lineTo(Axis.X, Axis.Y);
-    ctxRef.lineTo(Object.click1X, Axis.Y);
-    ctxRef.lineTo(Object.click1X, Object.click1Y);
-    ctxRef.stroke();
-    ctxRef.closePath();
-  },
-  set: (ctxRef, lineWidth, color) => {
-    Object.ctxRef = ctxRef;
-    Object.lineWidth = lineWidth;
-    Object.color = color;
-  },
-};
+class createSquare extends standardTool {
+  constructor(name) {
+    super();
+    this.name = name;
+  }
+  click1X = null;
+  click1Y = null;
+  start(Axis) {
+    this.defineInputs();
+    this.ctxRef.lineCap = "square";
+    this.openAction();
+    this.ctxRef.moveTo(Axis.X, Axis.Y);
+    this.click1X = Axis.X;
+    this.click1Y = Axis.Y;
+  }
+  action(Axis) {}
+  stop(Axis) {
+    this.ctxRef.lineTo(Axis.X, this.click1Y);
+    this.ctxRef.lineTo(Axis.X, Axis.Y);
+    this.ctxRef.lineTo(this.click1X, Axis.Y);
+    this.ctxRef.lineTo(this.click1X, this.click1Y);
+    this.ctxRef.stroke();
+    this.ctxRef.closePath();
+  }
+  cursorFunction(Axis) {
+    this.ctxRefV.clearRect(0, 0, 800, 800);
+    this.ctxRefV.lineWidth = this.lineWidth;
+    this.ctxRefV.strokeStyle = this.color;
+    this.ctxRefV.lineCap = "square";
+    this.ctxRefV.beginPath();
+    this.ctxRefV.moveTo(this.click1X, this.click1Y);
+    this.ctxRefV.lineTo(Axis.X, this.click1Y);
+    this.ctxRefV.lineTo(Axis.X, Axis.Y);
+    this.ctxRefV.lineTo(this.click1X, Axis.Y);
+    this.ctxRefV.lineTo(this.click1X, this.click1Y);
+    this.ctxRefV.stroke();
+    this.ctxRefV.closePath();
+  }
+}
+export const square = new createSquare("square");
 
 /********************************************************* */
 
-export const text = {
+class createText extends standardTool {
+  constructor(name) {
+    super();
+    this.name = name;
+  }
+  textMenu = false;
+  textMenuX = null;
+  textMenuY = null;
+  textValue = "test[123]";
+  fontSize = 24;
+  fontFamily = "Arial";
+  start() {}
+  action() {}
+  stop() {}
+  cursorFunction() {}
+  place() {}
+}
+export const text = new createText("text");
+
+export const text_old = {
   Name: "text",
   ctxRef: "",
   lineWidth: "",
@@ -217,26 +251,21 @@ export const text = {
   textMenu: false,
   textMenuX: null,
   textMenuY: null,
-  textValue: "",
-  start: (Axis) => {
-    Object.textMenuX = Axis.X;
-    Object.textMenuY = Axis.Y;
-    Object.textMenu = true;
+  textValue: "test[123]",
+  fontSize: 24,
+  fontFamily: "Arial",
+  start(ctxRef, Axis) {
+    this.textMenuX = Axis.X;
+    this.textMenuY = Axis.Y;
+    this.textMenu = true;
   },
-  action: (Axis) => {},
-  stop: (Axis) => {},
+  action(ctxRef, Axis) {},
+  stop(ctxRef, Axis) {},
   cursorFunction: (ctxRef, Axis) => {},
-  place: (TextToolValue, color) => {
-    Object.ctxRef.font = `${Object.lineWidth}px Arial`;
-    Object.ctxRef.fillStyle = color;
-    console.log(color);
-    Object.ctxRef.fillText(TextToolValue, Object.textMenuX, Object.textMenuY);
-  },
-  set: (ctxRef, lineWidth, color, textMenu) => {
-    Object.ctxRef = ctxRef;
-    Object.lineWidth = lineWidth;
-    Object.color = color;
-    Object.textMenu = textMenu;
+  place: (ctxRef, TextToolValue, color) => {
+    ctxRef.font = `${this.lineWidth}px ${this.fontFamily}`;
+    ctxRef.fillStyle = this.color;
+    ctxRef.fillText(TextToolValue, this.textMenuX, this.textMenuY);
   },
 };
 //maxWidth , placement adjust,  font picker  ,eases of use,drag

@@ -151,7 +151,7 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
         <div
           className="text__settings"
           style={{
-            display: ToolbarStatus.tool.Name === "text" ? "block" : "none",
+            display: ToolbarStatus.tool.name === "text" ? "block" : "none",
           }}
         >
           <select

@@ -255,14 +255,35 @@ class createText extends standardTool {
     this.defineInputs();
     this.textMenuX = Axis.X;
     this.textMenuY = Axis.Y;
-    const valueInput = document.createElement("input");
-    valueInput.style.cssText = `position: absolute;top: 200px;left:500px;z-index: 10;`;
-    // const loc = document.querySelector("body");
+    const TextBoxSpawnX = Axis.X + this.ctxRef.canvas.offsetLeft;
+    const TextBoxSpawnY = Axis.Y + this.ctxRef.canvas.offsetTop;
+    const existingElement = document.getElementsByClassName("textInput");
+
+    const valueInput = document.createElement("textarea");
+    valueInput.setAttribute("class", "textInput");
+    valueInput.style.cssText = `top: ${TextBoxSpawnY}px;left:${TextBoxSpawnX}px;font-size: ${this.fontSize}px;`;
+    //adjust by canvas field
     document.body.appendChild(valueInput);
 
-    // this.ctxRefV.font = `${this.lineWidth}px ${this.fontFamily}`;
-    // this.ctxRefV.fillStyle = this.color;
-    // this.ctxRefV.fillText(this.textValue, this.textMenuX, this.textMenuY);
+    const valueInputLocation = document.querySelector(".textInput");
+
+    valueInputLocation.addEventListener("keydown", (event) => {
+      this.textValue = event.target.value;
+      console.log(event.target.value);
+      console.log("keydown");
+      this.clearOverlay();
+      this.ctxRefV.font = `${this.lineWidth}px ${this.fontFamily}`;
+      this.ctxRefV.fillStyle = this.color;
+      this.ctxRefV.fillText(
+        this.textValue,
+        this.textMenuX,
+        this.textMenuY + this.fontSize
+      );
+      if (event.key === "Enter") {
+        this.place();
+        valueInputLocation.remove();
+      }
+    });
   }
   action(Axis) {}
   stop(Axis) {}
@@ -270,10 +291,13 @@ class createText extends standardTool {
   place(Axis) {
     this.ctxRef.font = `${this.lineWidth}px ${this.fontFamily}`;
     this.ctxRef.fillStyle = this.color;
-    this.ctxRef.fillText(this.textValue, this.textMenuX, this.textMenuY);
+    this.ctxRef.fillText(
+      this.textValue,
+      this.textMenuX,
+      this.textMenuY + this.fontSize
+    );
     this.clearOverlay();
     this.textValue = "";
-
     console.log("place executed");
   }
 }

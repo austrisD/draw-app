@@ -1,8 +1,11 @@
+import { createElement } from "react";
+
 class standardTool {
   lineWidth = "5";
   color = "";
   ctxRef = null;
   ctxRefV = null;
+  ToolActive = false;
   defineInputs() {
     if (this.ctxRef === null || this.ctxRefV === null) {
       this.ctxRef = document.getElementById("image").getContext("2d");
@@ -12,9 +15,11 @@ class standardTool {
     this.ctxRef.strokeStyle = this.color;
   }
   openAction() {
+    this.ToolActive = true;
     this.ctxRef.beginPath();
   }
   closeAction() {
+    this.ToolActive = false;
     this.ctxRef.stroke();
     this.ctxRef.closePath();
   }
@@ -24,6 +29,11 @@ class standardTool {
   setLineWidth(lineWidth) {
     this.lineWidth = lineWidth;
   }
+  clearOverlay() {
+    if (this.ctxRefV == null) return;
+    this.ctxRefV.clearRect(0, 0, 800, 800);
+  }
+  ToolActive() {}
 }
 
 class createPen extends standardTool {
@@ -34,20 +44,22 @@ class createPen extends standardTool {
   name = this.name;
   start(Axis) {
     this.defineInputs();
-    this.ctxRef.beginPath();
+    this.openAction();
     this.ctxRef.lineWidth = this.lineWidth;
     this.ctxRef.strokeStyle = this.color;
     this.ctxRef.moveTo(Axis.X, Axis.Y);
   }
   action(Axis) {
+    if (this.ToolActive === false) return;
     this.ctxRef.lineTo(Axis.X, Axis.Y);
     this.ctxRef.stroke();
   }
   stop() {
-    this.ctxRef.closePath();
+    this.closeAction();
   }
   cursorFunction(Axis) {
-    this.ctxRefV.clearRect(0, 0, 800, 800);
+    if (!this.ToolActive) return;
+    this.clearOverlay();
     this.ctxRefV.lineWidth = this.lineWidth;
     this.ctxRefV.strokeStyle = this.color;
     this.ctxRefV.lineCap = "round";
@@ -59,7 +71,7 @@ class createPen extends standardTool {
   }
 }
 export const Pen = new createPen("pen");
-/*******************************************************************/
+/*******************************************************************************************/
 
 class createDragLine extends standardTool {
   constructor(name) {
@@ -83,7 +95,8 @@ class createDragLine extends standardTool {
     this.closeAction();
   }
   cursorFunction(Axis) {
-    this.ctxRefV.clearRect(0, 0, 800, 800);
+    if (!this.ToolActive) return;
+    this.clearOverlay();
     this.ctxRefV.lineWidth = this.lineWidth;
     this.ctxRefV.strokeStyle = this.color;
     this.ctxRefV.lineCap = "round";
@@ -95,7 +108,7 @@ class createDragLine extends standardTool {
   }
 }
 export const dragLine = new createDragLine("dragLine");
-/*******************************************************************/
+/*****************************************************************************************/
 class createArc extends standardTool {
   constructor(name) {
     super();
@@ -113,6 +126,7 @@ class createArc extends standardTool {
     this.arcY = Axis.Y;
   }
   action(Axis) {
+    if (!this.ToolActive) return;
     let xAxisRadius = Math.abs(this.arcX - Axis.X);
     let yAxisRadius = Math.abs(this.arcY - Axis.Y);
     this.arcSize = xAxisRadius > yAxisRadius ? xAxisRadius : yAxisRadius;
@@ -123,7 +137,8 @@ class createArc extends standardTool {
     this.closeAction();
   }
   cursorFunction(Axis) {
-    this.ctxRefV.clearRect(0, 0, 800, 800);
+    if (!this.ToolActive) return;
+    this.clearOverlay();
     this.ctxRefV.lineWidth = this.lineWidth;
     this.ctxRefV.strokeStyle = this.color;
     this.ctxRefV.beginPath();
@@ -134,7 +149,7 @@ class createArc extends standardTool {
 }
 export const Arc = new createArc("arc");
 //clear on mouse realise visual canvas
-/*******************************************************************/
+/**********************************************************************************************/
 class createSquareFill extends standardTool {
   constructor(name) {
     super();
@@ -163,9 +178,10 @@ class createSquareFill extends standardTool {
     this.closeAction();
   }
   cursorFunction(Axis) {
+    if (!this.ToolActive) return;
     let squareWidth = Math.abs(this.arcX - Axis.X);
     let squareHeight = Math.abs(this.arcY - Axis.Y);
-    this.ctxRefV.clearRect(0, 0, 800, 800);
+    this.clearOverlay();
     this.ctxRefV.lineWidth = this.lineWidth;
     this.ctxRefV.fillStyle = this.color;
     this.ctxRefV.beginPath();
@@ -180,7 +196,7 @@ class createSquareFill extends standardTool {
   }
 }
 export const squareFill = new createSquareFill("squareFill");
-/*******************************************************************/
+/*****************************************************************************************/
 class createSquare extends standardTool {
   constructor(name) {
     super();
@@ -203,10 +219,11 @@ class createSquare extends standardTool {
     this.ctxRef.lineTo(this.click1X, Axis.Y);
     this.ctxRef.lineTo(this.click1X, this.click1Y);
     this.ctxRef.stroke();
-    this.ctxRef.closePath();
+    this.closeAction();
   }
   cursorFunction(Axis) {
-    this.ctxRefV.clearRect(0, 0, 800, 800);
+    if (!this.ToolActive) return;
+    this.clearOverlay();
     this.ctxRefV.lineWidth = this.lineWidth;
     this.ctxRefV.strokeStyle = this.color;
     this.ctxRefV.lineCap = "square";
@@ -222,52 +239,46 @@ class createSquare extends standardTool {
 }
 export const square = new createSquare("square");
 
-/********************************************************* */
+/*************************************************************************************** */
 
 class createText extends standardTool {
   constructor(name) {
     super();
     this.name = name;
   }
-  textMenu = false;
   textMenuX = null;
   textMenuY = null;
-  textValue = "test[123]";
+  textValue = "";
   fontSize = 24;
   fontFamily = "Arial";
-  start() {}
-  action() {}
-  stop() {}
-  cursorFunction() {}
-  place() {}
+  start(Axis) {
+    this.defineInputs();
+    this.textMenuX = Axis.X;
+    this.textMenuY = Axis.Y;
+    const valueInput = document.createElement("input");
+    valueInput.style.cssText = `position: absolute;top: 200px;left:500px;z-index: 10;`;
+    // const loc = document.querySelector("body");
+    document.body.appendChild(valueInput);
+
+    // this.ctxRefV.font = `${this.lineWidth}px ${this.fontFamily}`;
+    // this.ctxRefV.fillStyle = this.color;
+    // this.ctxRefV.fillText(this.textValue, this.textMenuX, this.textMenuY);
+  }
+  action(Axis) {}
+  stop(Axis) {}
+  cursorFunction(Axis) {}
+  place(Axis) {
+    this.ctxRef.font = `${this.lineWidth}px ${this.fontFamily}`;
+    this.ctxRef.fillStyle = this.color;
+    this.ctxRef.fillText(this.textValue, this.textMenuX, this.textMenuY);
+    this.clearOverlay();
+    this.textValue = "";
+
+    console.log("place executed");
+  }
 }
 export const text = new createText("text");
 
-export const text_old = {
-  Name: "text",
-  ctxRef: "",
-  lineWidth: "",
-  color: "",
-  textMenu: false,
-  textMenuX: null,
-  textMenuY: null,
-  textValue: "test[123]",
-  fontSize: 24,
-  fontFamily: "Arial",
-  start(ctxRef, Axis) {
-    this.textMenuX = Axis.X;
-    this.textMenuY = Axis.Y;
-    this.textMenu = true;
-  },
-  action(ctxRef, Axis) {},
-  stop(ctxRef, Axis) {},
-  cursorFunction: (ctxRef, Axis) => {},
-  place: (ctxRef, TextToolValue, color) => {
-    ctxRef.font = `${this.lineWidth}px ${this.fontFamily}`;
-    ctxRef.fillStyle = this.color;
-    ctxRef.fillText(TextToolValue, this.textMenuX, this.textMenuY);
-  },
-};
 //maxWidth , placement adjust,  font picker  ,eases of use,drag
 
 //more reformations needed!!!

@@ -4,7 +4,6 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
   const canvasRef = useRef(null);
   const canvasRefV = useRef(null);
 
-  const [IsDrawing, setIsDrawing] = useState(false);
   const [MouseLoc, setMouseLoc] = useState({ X: 0, Y: 0 });
   const [CoordinatesActive, setCoordinatesActive] = useState(false);
 
@@ -28,7 +27,6 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
 
   useEffect(() => {
     console.log("changes in tool");
-    ///refresh tool settings
   }, [ToolbarStatus.tool.color, ToolbarStatus.tool.lineWidth]);
 
   return (
@@ -45,7 +43,6 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
         }}
         ref={canvasRefV}
         onMouseDown={() => {
-          setIsDrawing(true);
           ToolbarStatus.tool.start(MouseLoc);
         }}
         onMouseMove={(event) => {
@@ -54,15 +51,12 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
             X: event.clientX - canvasRefV.current.offsetLeft,
             Y: event.clientY - canvasRefV.current.offsetTop,
           });
-
-          if (!IsDrawing) return;
           ToolbarStatus.tool.cursorFunction(MouseLoc);
-          //must create cursor function before,for some tools
           ToolbarStatus.tool.action(MouseLoc);
         }}
         onMouseUp={() => {
           ToolbarStatus.tool.stop(MouseLoc);
-          setIsDrawing(false);
+          // setIsDrawing(false);
         }}
         onMouseLeave={() => {
           setCoordinatesActive(false);

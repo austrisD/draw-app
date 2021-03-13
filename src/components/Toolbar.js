@@ -133,7 +133,7 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
       <div
         className="text"
         style={
-          ToolbarStatus.tool.Name === "text"
+          ToolbarStatus.tool.name === "text"
             ? global.ActiveBtn
             : { borderColor: "#000" }
         }

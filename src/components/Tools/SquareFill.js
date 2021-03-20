@@ -3,9 +3,6 @@ import { standardTool } from "./_ToolBaseClass";
 import { FaSquareFull } from "react-icons/fa";
 
 export class SquareFill extends standardTool {
-  constructor() {
-    super();
-  }
   arcX = 0;
   arcY = 0;
   arcSize = 0;
@@ -49,8 +46,8 @@ export class SquareFill extends standardTool {
     return (
       <div
         onClick={() => {
-          this.toolON = this.toolON === false ? true : false;
-          if (this.toolON === true) this.props.setThis(this);
+          this.toolON = true;
+          this.props.setThis(this);
         }}
         className="tool"
         style={this.toolON === true ? this.ActiveBtn : this.inActiveBtn}

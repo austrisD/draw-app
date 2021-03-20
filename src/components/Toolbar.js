@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { GithubPicker } from "react-color";
 import { FaRegSave } from "react-icons/fa";
 // import { activeToolsControl } from "./Tools/_ToolControl";
@@ -60,22 +60,22 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
           max="50"
           value={ToolbarStatus.lineWidth}
           onChange={(event) => {
-            ToolbarStatus.tool.setLineWidth(event.target.value);
+            ToolbarStatus.tool.setLineWidth(parseInt(event.target.value));
             setToolbarStatus((prevState) => ({
               ...prevState,
-              lineWidth: event.target.value,
+              lineWidth: parseInt(event.target.value),
             }));
           }}
         />
         <p>{ToolbarStatus.lineWidth}</p>
       </div>
 
-      <Pen setThis={setThis} />
-      <DragLine setThis={setThis} />
-      <Arc setThis={setThis} />
-      <Square setThis={setThis} />
-      <SquareFill setThis={setThis} />
-      <WriteText setThis={setThis} />
+      <Pen setThis={setThis} activeTool={ToolbarStatus.tool} />
+      <DragLine setThis={setThis} activeTool={ToolbarStatus.tool} />
+      <Arc setThis={setThis} activeTool={ToolbarStatus.tool} />
+      <Square setThis={setThis} activeTool={ToolbarStatus.tool} />
+      <SquareFill setThis={setThis} activeTool={ToolbarStatus.tool} />
+      <WriteText setThis={setThis} activeTool={ToolbarStatus.tool} />
 
       <div>
         <button
@@ -91,133 +91,3 @@ export const Toolbar = ({ setToolbarStatus, ToolbarStatus }) => {
 };
 
 export default Toolbar;
-
-// const StandardTool = ({ name, ClassName, ToolFunctions }) => {
-//   return (
-//     <div
-//       className={ClassName}
-//       style={
-//         ToolbarStatus.tool.name === ClassName
-//           ? global.ActiveBtn
-//           : { borderColor: "#000" }
-//       }
-//       onClick={() => {
-//         setToolbarStatus((prevState) => ({
-//           ...prevState,
-//           tool: ToolFunctions,
-//         }));
-//       }}
-//     >
-//       <p> {name}</p>
-//     </div>
-//   );
-// };
-
-{
-  /*
-      <StandardTool
-        ClassName={"dragLine"}
-        name={<>&#9866;</>}
-        ToolFunctions={dragLine}
-      />
-
-      <StandardTool ClassName={"arc"} name={<>&#9898;</>} ToolFunctions={Arc} />
-
-      <StandardTool
-        ClassName={"squareFill"}
-        name={<FaSquareFull />}
-        ToolFunctions={squareFill}
-      />
-
-      <StandardTool
-        ClassName={"square"}
-        name={<BsSquare />}
-        ToolFunctions={square}
-      />
-
-      <div
-        className="text"
-        style={
-          ToolbarStatus.tool.name === "text"
-            ? global.ActiveBtn
-            : { borderColor: "#000" }
-        }
-        onClick={() => {
-          setToolbarStatus((prevState) => ({
-            ...prevState,
-            tool: text,
-          }));
-        }}
-      >
-        <VscTextSize style={{ width: "25px", height: "25px" }} />
-      </div>
-
-      <div className="ToolSettings">
-        <div
-          className="text__settings"
-          style={{
-            display: ToolbarStatus.tool.name === "text" ? "block" : "none",
-          }}
-        >
-          <select
-            className="text__settings__size"
-            onChange={(event) => {
-              text.fontSize = parseInt(event.target.value);
-            }}
-          >
-            <option value="8">8px</option>
-            <option value="12">13px</option>
-            <option value="16">16px</option>
-            <option value="24">24px</option>
-            <option value="32">32px</option>
-            <option value="42">42px</option>
-            <option value="72">72px</option>
-          </select>
-          <select
-            className="text__settings__fontSelect"
-            onChange={(event) => {
-              text.fontFamily = event.target.value;
-            }}
-          >
-            <option value="Arial">Arial</option>
-            <option value="Verdana">Verdana</option>
-            <option value="Gill Sans">Gill Sans</option>
-          </select>
-        </div>
-        <input
-          type="text "
-          className="drawFieldSize"
-          placeholder="screen width"
-          onChange={(event) => {
-            setToolbarStatus((prevState) => ({
-              ...prevState,
-              canvasWidth: event.target.value,
-            }));
-          }}
-          value={ToolbarStatus.canvasWidth}
-        />
-        <input
-          type="text "
-          className="drawFieldSize"
-          placeholder="screen hight"
-          onChange={(event) => {
-            setToolbarStatus((prevState) => ({
-              ...prevState,
-              canvasHeight: event.target.value,
-            }));
-          }}
-          value={ToolbarStatus.canvasHeight}
-        />
-      </div>
-
-      <div className="Toolbar__ctrl_Z" onClick={() => {}}>
-        <BsArrowReturnLeft />
-      </div>
-
-      <div className="Toolbar__ctrl_Y" onClick={() => {}}>
-        <BsArrowReturnRight />
-      </div> */
-}
-{
-  /**must change reload + add warning if change  progress lost */
-}

@@ -2,10 +2,7 @@ import React from "react";
 import { standardTool } from "./_ToolBaseClass";
 import { BsSquare } from "react-icons/bs";
 
-export  class Square extends standardTool {
-  constructor() {
-    super();
-  }
+export class Square extends standardTool {
   click1X = null;
   click1Y = null;
   start() {
@@ -45,7 +42,7 @@ export  class Square extends standardTool {
       <div
         onClick={() => {
           this.toolON = true;
-          if (this.toolON === true) this.props.setThis(this);
+          this.props.setThis(this);
         }}
         className="tool"
         style={this.toolON === true ? this.ActiveBtn : this.inActiveBtn}

@@ -2,10 +2,6 @@ import { standardTool } from "./_ToolBaseClass";
 import { RiSubtractLine } from "react-icons/ri";
 
 export class DragLine extends standardTool {
-  constructor() {
-    super();
-  }
-  name = "dragLine";
   initialLoc = null;
   initialLocY = null;
   start() {
@@ -37,8 +33,8 @@ export class DragLine extends standardTool {
     return (
       <div
         onClick={() => {
-          this.toolON = this.toolON === false ? true : false;
-          if (this.toolON === true) this.props.setThis(this);
+          this.toolON = true;
+          this.props.setThis(this);
         }}
         style={this.toolON === true ? this.ActiveBtn : this.inActiveBtn}
       >
@@ -47,3 +43,4 @@ export class DragLine extends standardTool {
     );
   }
 }
+//ad hold shift 45deg 90deg kad pašreizējas lokācijas pārsniedz pusi no x ass y ass no pirmā klika

@@ -1,11 +1,6 @@
 import { standardTool } from "./_ToolBaseClass";
 
 class createMouseCoordinates extends standardTool {
-  constructor(name) {
-    super();
-    this.name = name;
-  }
-  name = this.name;
   toolON = false;
   start() {}
   action() {}
@@ -16,7 +11,7 @@ class createMouseCoordinates extends standardTool {
       <>
         <div
           onClick={() => {
-            this.toolON = this.toolON === false ? true : false;
+            this.toolON = true;
           }}
           className="tool"
           style={this.toolON === true ? this.ActiveBtn : this.inActiveBtn}

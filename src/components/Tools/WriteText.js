@@ -3,9 +3,6 @@ import { standardTool } from "./_ToolBaseClass";
 import { VscTextSize } from "react-icons/vsc";
 
 export class WriteText extends standardTool {
-  constructor() {
-    super();
-  }
   textPlacementX = null;
   textPlacementY = null;
   inputField = null;
@@ -68,33 +65,22 @@ export class WriteText extends standardTool {
     );
     this.clearOverlay();
     this.textValue = "";
-    console.log("place executed");
-    console.log(this.fontSize);
     this.ToolActive = false;
   }
-  render(setThis) {
-    return (
-      <>
-        <div
-          onClick={() => {
-            this.toolON = this.toolON === false ? true : false;
-            if (this.toolON === true) this.props.setThis(this);
-          }}
-          className="tool"
-          style={this.toolON === true ? this.ActiveBtn : this.inActiveBtn}
-        >
-          <VscTextSize />
-        </div>
+  render() {
+    const WriteTextSettings = () => {
+      return (
         <div
           className="text__settings"
           style={{
-            display: this.toolON ? "block" : "none",
+            display: "block",
             position: "absolute",
           }}
         >
           <select
             className="text__settings__size"
             onChange={(event) => {
+              console.log(this);
               this.fontSize = parseInt(event.target.value);
             }}
           >
@@ -117,6 +103,21 @@ export class WriteText extends standardTool {
             <option value="Gill Sans">Gill Sans</option>
           </select>
         </div>
+      );
+    };
+    return (
+      <>
+        <div
+          onClick={() => {
+            this.toolON = true;
+            this.props.setThis(this);
+          }}
+          className="tool"
+          style={this.toolON === true ? this.ActiveBtn : this.inActiveBtn}
+        >
+          <VscTextSize />
+        </div>
+        {this.toolON ? <WriteTextSettings /> : null}
       </>
     );
   }

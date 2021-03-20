@@ -7,7 +7,7 @@ function App() {
   const [ToolbarStatus, setToolbarStatus] = useState({
     color: "#000000",
     lineWidth: 5,
-    tool: new Pen,
+    tool: new Pen(),
     canvasWidth: 800,
     canvasHeight: 800,
   });

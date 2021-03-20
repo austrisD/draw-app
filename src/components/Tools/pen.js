@@ -3,10 +3,6 @@ import { standardTool } from "./_ToolBaseClass";
 import { BsPen } from "react-icons/bs";
 
 export class Pen extends standardTool {
-  constructor() {
-    super();
-  }
-  name = "pen";
   toolON = true;
   start() {
     this.defineInputs();
@@ -40,8 +36,8 @@ export class Pen extends standardTool {
     return (
       <div
         onClick={() => {
-          this.toolON = this.toolON === false ? true : false;
-          if (this.toolON === true) this.props.setThis(this);
+          this.toolON = true;
+          this.props.setThis(this);
         }}
         className="tool"
         style={this.toolON === true ? this.ActiveBtn : this.inActiveBtn}

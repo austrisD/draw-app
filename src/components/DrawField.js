@@ -5,7 +5,6 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
   const canvasRefV = useRef(null);
 
   const [MouseLoc, setMouseLoc] = useState({ X: 0, Y: 0 });
-  const [CoordinatesActive, setCoordinatesActive] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -25,55 +24,51 @@ export const DrawField = ({ ToolbarStatus, setToolbarStatus }) => {
   }, []);
   /**draw field canvas */
 
-  useEffect(() => {
-    console.log("changes in tool");
-  }, [ToolbarStatus.tool.color, ToolbarStatus.tool.lineWidth]);
 
   return (
     <>
-      <canvas style={{ border: "1px solid #000" }} id="image" ref={canvasRef} />
-      <canvas
-        className="canvasRefVisual"
-        id="overlay"
+      <div
+        className="drawAreaWarper"
         style={{
-          border: "1px solid #000",
-          cursor: "crosshair",
-          top: 8 + "px" /**canvasRef.current.offsetTop */,
-          left: 108 + "px" /**canvasRef.current.offsetLeft */,
+          width: ToolbarStatus.canvasWidth,
         }}
-        ref={canvasRefV}
-        onMouseDown={() => {
-          ToolbarStatus.tool.start(MouseLoc);
-        }}
-        onMouseMove={(event) => {
-          setCoordinatesActive(true);
-          setMouseLoc({
-            X: event.clientX - canvasRefV.current.offsetLeft,
-            Y: event.clientY - canvasRefV.current.offsetTop,
-          });
-          ToolbarStatus.tool.cursorFunction(MouseLoc);
-          ToolbarStatus.tool.action(MouseLoc);
-        }}
-        onMouseUp={() => {
-          ToolbarStatus.tool.stop(MouseLoc);
-          // setIsDrawing(false);
-        }}
-        onMouseLeave={() => {
-          setCoordinatesActive(false);
-        }}
-      />
-      <p
-        style={{
-          display: CoordinatesActive ? "block" : "none",
-          top: MouseLoc.Y - 10,
-          left: MouseLoc.X + 130,
-        }}
-        className="cursorCandidates"
       >
-        {`X:${MouseLoc.X}`}
-        <br />
-        {`Y:${MouseLoc.Y}`}
-      </p>
+        <canvas
+          style={{ border: "1px solid #000" }}
+          id="image"
+          ref={canvasRef}
+        />
+        <canvas
+          className="canvasRefVisual"
+          id="overlay"
+          style={{
+            border: "1px solid #000",
+            cursor: "crosshair",
+            top: 8 + "px" /**canvasRef.current.offsetTop */,
+            left: 108 + "px" /**canvasRef.current.offsetLeft */,
+          }}
+          ref={canvasRefV}
+          onMouseDown={() => {
+            ToolbarStatus.tool.start();
+          }}
+          onMouseMove={(event) => {
+            ToolbarStatus.tool.Axis = MouseLoc;
+            setMouseLoc({
+              X: event.clientX - canvasRefV.current.offsetLeft,
+              Y: event.clientY - canvasRefV.current.offsetTop,
+            });
+
+            ToolbarStatus.tool.cursorFunction();
+            ToolbarStatus.tool.action();
+          }}
+          onMouseUp={() => {
+            ToolbarStatus.tool.stop();
+          }}
+          onMouseLeave={() => {}}
+        />
+      </div>
+
+      {/*cursor coordinates must by optional*/}
       <button
         onClick={() => {
           console.log(ToolbarStatus);

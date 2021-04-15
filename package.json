@@ -6,7 +6,7 @@
   "description": "basic draping app",
   "main": "index.html",
   "private": true,
-  "homepage": "https://austrisd.github.io/Test/",
+  "homepage": "https://austrisd.github.io/draw-app/",
   "repository": {
     "type": "git",
     "url": "https://github.com/austrisD/draw-app"

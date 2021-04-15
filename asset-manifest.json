@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/Test/static/css/main.821b6e1c.chunk.css",
-    "main.js": "/Test/static/js/main.ff086501.chunk.js",
-    "main.js.map": "/Test/static/js/main.ff086501.chunk.js.map",
-    "runtime-main.js": "/Test/static/js/runtime-main.abd7149a.js",
-    "runtime-main.js.map": "/Test/static/js/runtime-main.abd7149a.js.map",
-    "static/js/2.ce7dd4e6.chunk.js": "/Test/static/js/2.ce7dd4e6.chunk.js",
-    "static/js/2.ce7dd4e6.chunk.js.map": "/Test/static/js/2.ce7dd4e6.chunk.js.map",
-    "index.html": "/Test/index.html",
-    "static/css/main.821b6e1c.chunk.css.map": "/Test/static/css/main.821b6e1c.chunk.css.map",
-    "static/js/2.ce7dd4e6.chunk.js.LICENSE.txt": "/Test/static/js/2.ce7dd4e6.chunk.js.LICENSE.txt"
+    "main.css": "/draw-app/static/css/main.b6db7dd3.chunk.css",
+    "main.js": "/draw-app/static/js/main.e3ebe49d.chunk.js",
+    "main.js.map": "/draw-app/static/js/main.e3ebe49d.chunk.js.map",
+    "runtime-main.js": "/draw-app/static/js/runtime-main.b14f08b1.js",
+    "runtime-main.js.map": "/draw-app/static/js/runtime-main.b14f08b1.js.map",
+    "static/js/2.0500ad59.chunk.js": "/draw-app/static/js/2.0500ad59.chunk.js",
+    "static/js/2.0500ad59.chunk.js.map": "/draw-app/static/js/2.0500ad59.chunk.js.map",
+    "index.html": "/draw-app/index.html",
+    "static/css/main.b6db7dd3.chunk.css.map": "/draw-app/static/css/main.b6db7dd3.chunk.css.map",
+    "static/js/2.0500ad59.chunk.js.LICENSE.txt": "/draw-app/static/js/2.0500ad59.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.abd7149a.js",
-    "static/js/2.ce7dd4e6.chunk.js",
-    "static/css/main.821b6e1c.chunk.css",
-    "static/js/main.ff086501.chunk.js"
+    "static/js/runtime-main.b14f08b1.js",
+    "static/js/2.0500ad59.chunk.js",
+    "static/css/main.b6db7dd3.chunk.css",
+    "static/js/main.e3ebe49d.chunk.js"
   ]
 }
